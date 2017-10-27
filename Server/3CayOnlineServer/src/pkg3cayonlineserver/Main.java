@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pkg3cayonlineclient;
+package pkg3cayonlineserver;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +20,14 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new MainFrame().setVisible(true);
+        Server server;
+        try {
+            server = new Server();
+            server.listening();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

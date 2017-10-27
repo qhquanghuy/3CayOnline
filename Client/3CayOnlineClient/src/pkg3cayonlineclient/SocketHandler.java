@@ -5,18 +5,18 @@
  */
 package pkg3cayonlineclient;
 
+import java.net.Socket;
+
 /**
  *
  * @author HuyNguyen
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        new MainFrame().setVisible(true);
-    }
+public class SocketHandler {
     
+    public static final SocketHandler shared = new SocketHandler();
+    
+    private Socket socket;
+    
+                
+    private SocketHandler() {}
 }
