@@ -5,18 +5,61 @@
  */
 package pkg3cayonlineclient;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import pkg3cayonlinesharedmodel.Common;
+import pkg3cayonlinesharedmodel.Request;
+import pkg3cayonlinesharedmodel.Response;
 
 /**
  *
  * @author HuyNguyen
  */
-public class SocketHandler {
+final public class SocketHandler {
     
-    public static final SocketHandler shared = new SocketHandler();
+    private static SocketHandler shared = null;
     
     private Socket socket;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
     
+    public static SocketHandler sharedIntance() {
+        if(shared == null) {
+            shared = new SocketHandler();
+        }
+        return shared;
+    }
                 
-    private SocketHandler() {}
+    private SocketHandler() {
+        try {
+            this.socket = new Socket(Common.Config.TCPServer.Host,
+                                     Common.Config.TCPServer.Port);
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void sending(Request req) throws IOException {
+        if(this.output == null) {
+            this.output = new ObjectOutputStream(this.socket.getOutputStream());
+        }
+        this.output.writeObject(req);
+        
+    }
+    
+    public Response received() throws IOException, ClassNotFoundException {
+        if(this.input == null) {
+            this.input = new ObjectInputStream(this.socket.getInputStream());
+        }
+        return (Response) this.input.readObject();
+    }
+    
+    public void closing() throws IOException {
+        this.socket.close();
+        this.input.close();
+        this.output.close();
+    }
 }

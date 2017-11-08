@@ -3,3 +3,7 @@
 /Common/3CayOnlineSharedModel/nbproject/private/
 /Server/3CayOnlineServer/build/
 /Client/3CayOnlineClient/build/
+/Common/3CayOnlineSharedModel/build/
+/Common/3CayOnlineSharedModel/dist/
+/Server/3CayOnlineServer/dist/
+/Client/3CayOnlineClient/dist/

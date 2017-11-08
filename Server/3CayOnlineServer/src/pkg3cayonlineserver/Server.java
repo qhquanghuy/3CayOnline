@@ -8,15 +8,20 @@ package pkg3cayonlineserver;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import pkg3cayonlinesharedmodel.Common;
 
 /**
  *
  * @author HuyNguyen
  */
 public class Server {
-    private final int serverPort = 1352;
+    private final int serverPort = Common.Config.TCPServer.Port;
     private final ServerSocket serverSocket;
 
+    
+    
+    
+    
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(serverPort);
     }

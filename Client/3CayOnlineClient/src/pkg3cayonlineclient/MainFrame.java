@@ -12,6 +12,9 @@ import java.net.Socket;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pkg3cayonlinesharedmodel.Common;
+import pkg3cayonlinesharedmodel.Request;
+import pkg3cayonlinesharedmodel.Response;
 
 
 /**
@@ -24,18 +27,18 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     
-    Socket socket;
-    ObjectInputStream input;
-    ObjectOutputStream output;
+//    Socket socket;
+//    ObjectInputStream input;
+//    ObjectOutputStream output;
     
     public MainFrame() {
         initComponents();
-        try {
-            this.socket = new Socket("localhost", 1352);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            this.socket = new Socket("localhost", 1352);
+//
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     /**
@@ -92,27 +95,24 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void SomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SomeActionPerformed
 
-        
-               
-        
-        new Thread(() -> {
-            try {
             // TODO add your handling code here:
             
+            try {
+//            if(this.output == null) {
+//                this.output = new ObjectOutputStream(socket.getOutputStream());
+//            }
             
-            if(this.output == null) {
-                this.output = new ObjectOutputStream(socket.getOutputStream());
-            }
+            Request req = new Request(Common.RequestURI.Login, "asasdasd");
+            SocketHandler.sharedIntance().sending(req);
+//            this.output.writeObject(req);
             
-            this.output.writeObject("someaction");
+//            if(this.input == null) {
+//                this.input = new ObjectInputStream(socket.getInputStream());
+//            }
             
-            if(this.input == null) {
-                this.input = new ObjectInputStream(socket.getInputStream());
-            }
+            Response res = SocketHandler.sharedIntance().received(); //this.input.readObject();
             
-            String res = (String) this.input.readObject();
-            
-            System.out.println(res);
+            System.out.println(res.getData());
                         
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,41 +120,12 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        }).start();
          
     }//GEN-LAST:event_SomeActionPerformed
 
     private void otherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otherActionPerformed
         // TODO add your handling code here:
-        new Thread(() -> {
-            try {
-            // TODO add your handling code here:
-            
-            
-            if(this.output == null) {
-                this.output = new ObjectOutputStream(socket.getOutputStream());
-            }
-            
-            this.output.writeObject("otheraction");
-            
-            if(this.input == null) {
-                this.input = new ObjectInputStream(socket.getInputStream());
-            }
-            
-            String res = (String) this.input.readObject();
-            
-            System.out.println(res);
-            this.socket.close();
-                        
-        } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        
-        }).start();
     }//GEN-LAST:event_otherActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,28 +11,28 @@ import java.io.Serializable;
  *
  * @author HuyNguyen
  */
-public class Message<T> implements Serializable {
-    private String header;
-    private T data;
+public class Message<H,D> implements Serializable {
+    private H header;
+    private D data;
 
-    public Message(String header, T data) {
+    public Message(H header, D data) {
         this.header = header;
         this.data = data;
     }
 
-    public String getHeader() {
+    public H getHeader() {
         return header;
     }
 
-    public void setHeader(String header) {
+    public void setHeader(H header) {
         this.header = header;
     }
 
-    public T getData() {
+    public D getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(D data) {
         this.data = data;
     }
     
