@@ -43,8 +43,9 @@ public class ClientHandler extends Thread {
                 }
                 Request request = (Request) this.input.readObject();
                 this.output.writeObject(Router.parse(request));
+                Thread.sleep(200);
             }
-        } catch (ClassNotFoundException | IOException ex) {
+        } catch (ClassNotFoundException | IOException | InterruptedException ex) {
                 ex.printStackTrace();
         } finally {
             try {
