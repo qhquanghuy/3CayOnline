@@ -5,7 +5,7 @@
  */
 package pkg3cayonlineclient;
 
-import BasedComponents.View;
+import BaseComponents.View;
 
 /**
  *

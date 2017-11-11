@@ -5,8 +5,8 @@
  */
 package pkg3cayonlineclient;
 
-import BasedComponents.Router;
-import BasedComponents.ViewController;
+import BaseComponents.Router;
+import BaseComponents.ViewController;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 

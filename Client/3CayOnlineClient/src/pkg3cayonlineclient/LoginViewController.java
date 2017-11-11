@@ -5,7 +5,15 @@
  */
 package pkg3cayonlineclient;
 
-import BasedComponents.ViewController;
+import BaseComponents.ViewController;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import pkg3cayonlinesharedmodel.Account;
+import pkg3cayonlinesharedmodel.Common;
+import pkg3cayonlinesharedmodel.Request;
+import pkg3cayonlinesharedmodel.Result;
+import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
  *
@@ -19,7 +27,27 @@ public class LoginViewController extends ViewController implements LoginViewDele
 
     @Override
     public void onTapRegister() {
-        this.getRouter().show(new RegisterViewController(new RegisterView()));
+        this.getRouter().show(new RegisterViewController());
+    }
+
+    @Override
+    public void onTapSignIn(Account acc) {
+        try {
+            Request req = new Request(Common.RequestURI.Login, acc);
+            SocketHandler.sharedIntance().sending(req);
+            Result<UserInfo> result = SocketHandler.sharedIntance().received(UserInfo.class);
+            
+            if(result.isError()) {
+                Helper.showMessage(view, result.errorVal());
+                
+            } else {
+                this.router.show(new GameHallViewController(result.value()));
+            }
+            
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            Helper.showMessage(view, "Something went wrong");
+        }
     }
     
 }

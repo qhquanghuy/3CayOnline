@@ -12,6 +12,7 @@ import java.net.Socket;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
+import pkg3cayonlinesharedmodel.Result;
 
 /**
  *
@@ -50,11 +51,23 @@ final public class SocketHandler {
         
     }
     
-    public Response received() throws IOException, ClassNotFoundException {
+    private <I,O> Result<O> parse(Response<I> res, Class<O> outputType) {
+        if(res.getHeader() >= 200 && res.getHeader() < 300) {
+            I value = res.getData();
+            if(outputType.isInstance(value)) {
+                return Result.ok((O) value);
+            }
+            return Result.error("Parsing error");
+        } else {
+            return Result.error((String) res.getData());
+        }
+    }
+    
+    public <O> Result<O> received(Class<O> type) throws IOException, ClassNotFoundException {
         if(this.input == null) {
             this.input = new ObjectInputStream(this.socket.getInputStream());
         }
-        return (Response) this.input.readObject();
+        return this.parse((Response) this.input.readObject(), type);
     }
     
     public void closing() throws IOException {

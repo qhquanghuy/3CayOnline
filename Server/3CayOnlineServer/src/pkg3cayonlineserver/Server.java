@@ -33,7 +33,7 @@ public class Server {
         while(true) {
             try {
                 Socket aceptedSocket = this.serverSocket.accept();
-                
+                System.out.println("####Connected Client" + aceptedSocket.getInetAddress() + " on " + aceptedSocket.getPort());
                 new ClientHandler(aceptedSocket).start();
                 
             } catch (IOException ex) {

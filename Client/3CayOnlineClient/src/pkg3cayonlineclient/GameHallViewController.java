@@ -6,15 +6,19 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
+import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
  *
  * @author huynguyen
  */
-public class RegisterViewController extends ViewController {
+public class GameHallViewController extends ViewController {
     
-    public RegisterViewController() {
-        super(new RegisterView());
+    private final UserInfo user;
+    
+    public GameHallViewController(UserInfo user) {
+        super(new GameHallView());
+        this.user = user;
     }
     
 }

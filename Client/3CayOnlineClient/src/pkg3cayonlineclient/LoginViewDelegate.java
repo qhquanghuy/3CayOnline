@@ -5,10 +5,13 @@
  */
 package pkg3cayonlineclient;
 
+import pkg3cayonlinesharedmodel.Account;
+
 /**
  *
  * @author huynguyen
  */
 public interface LoginViewDelegate {
     public void onTapRegister();
+    public void onTapSignIn(Account acc);
 }

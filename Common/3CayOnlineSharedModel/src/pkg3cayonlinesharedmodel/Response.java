@@ -14,4 +14,13 @@ public class Response<D> extends Message<Integer, D> {
     public Response(int header, D data) {
         super(header, data);
     }
+    
+    public static Response resourceNotFound() {
+        return new Response(404, "Resource Not Found");
+    }
+    
+    public static Response systemError() {
+        return new Response(500, "System error");
+    }
+    
 }

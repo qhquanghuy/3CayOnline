@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BasedComponents;
+package BaseComponents;
 
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.function.Consumer;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -54,7 +55,11 @@ public class Router {
         }
         
         addIfNeeded.accept(vc);
-        this.cardLayout.show(this.rootContainer, vc.view.getIdentifier());
+        SwingUtilities.invokeLater(() -> {
+            this.cardLayout.show(this.rootContainer, vc.view.getIdentifier());
+        });
+        
+        
     }
     
 }
