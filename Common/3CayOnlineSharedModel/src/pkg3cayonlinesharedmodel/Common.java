@@ -29,8 +29,18 @@ public final class Common {
     /// Request name
     
     public enum RequestURI {
-        Login,
-        Register,
+        SignIn,
+        SignOut,
+        CreateRoom,
+        LeaveRoom,
+        JoinRoom,
+        GetOnlineUsers,
         
+    }
+    public enum ResponseHeader {
+        Error,
+        Success,
+        NewSignedUser,
+        Notification
     }
 }

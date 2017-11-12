@@ -9,18 +9,18 @@ package pkg3cayonlinesharedmodel;
  *
  * @author huynguyen
  */
-public class Response<D> extends Message<Integer, D> {
+public class Response<D> extends Message<Common.ResponseHeader, D> {
     
-    public Response(int header, D data) {
+    public Response(Common.ResponseHeader header, D data) {
         super(header, data);
     }
     
     public static Response resourceNotFound() {
-        return new Response(404, "Resource Not Found");
+        return new Response(Common.ResponseHeader.Error, "Resource Not Found");
     }
     
     public static Response systemError() {
-        return new Response(500, "System error");
+        return new Response(Common.ResponseHeader.Error, "System error");
     }
     
 }

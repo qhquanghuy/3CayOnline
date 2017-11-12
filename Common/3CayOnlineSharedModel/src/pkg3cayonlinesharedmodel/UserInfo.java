@@ -13,15 +13,29 @@ import java.io.Serializable;
  */
 public class UserInfo implements Serializable {
     private int id;
+    private String username;
     private String firstname;
     private String lastname;
     private int score;
+    
+    public UserInfo(String username) {
+        this.username = username;
+    }
 
-    public UserInfo(int id, String firstname, String lastname, int score) {
+    public UserInfo(int id, String username, String firstname, String lastname, int score) {
         this.id = id;
+        this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.score = score;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getScore() {
@@ -55,4 +69,12 @@ public class UserInfo implements Serializable {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+
+    public boolean equals(UserInfo obj) {
+        return this.username.equals(obj.username);
+    }
+    
+    
+    
 }

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
@@ -26,6 +28,7 @@ final public class SocketHandler {
     private ObjectInputStream input;
     private ObjectOutputStream output;
     
+    
     public static SocketHandler sharedIntance() {
         if(shared == null) {
             shared = new SocketHandler();
@@ -35,11 +38,20 @@ final public class SocketHandler {
                 
     private SocketHandler() {
         try {
-            this.socket = new Socket(Common.Config.TCPServer.Host,
-                                     Common.Config.TCPServer.Port);
+            this.opening();
             
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public <O> Result<O> get(Request req, Class<O> outputType) {
+        try {
+            this.sending(req);
+            return this.received(outputType);
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Result.error("Something went wrong");
         }
     }
     
@@ -52,14 +64,16 @@ final public class SocketHandler {
     }
     
     private <I,O> Result<O> parse(Response<I> res, Class<O> outputType) {
-        if(res.getHeader() >= 200 && res.getHeader() < 300) {
-            I value = res.getData();
-            if(outputType.isInstance(value)) {
-                return Result.ok((O) value);
-            }
-            return Result.error("Parsing error");
-        } else {
-            return Result.error((String) res.getData());
+        
+        switch (res.getHeader()) {
+            case Error:
+                return Result.error((String) res.getData());
+            default:
+                I value = res.getData();
+                if(outputType.isInstance(value)) {
+                    return Result.ok((O) value);
+                }
+                return Result.error("Parsing error");
         }
     }
     
@@ -74,5 +88,21 @@ final public class SocketHandler {
         this.socket.close();
         this.input.close();
         this.output.close();
+        this.input = null;
+        this.output = null;
+        this.socket = null;
     }
+    
+    public boolean isClosed() {
+        return this.socket == null;
+    }
+    
+    public void opening() throws IOException {
+        this.socket = new Socket(Common.Config.TCPServer.Host,
+                                  Common.Config.TCPServer.Port);
+    }
+
+    
+
+
 }

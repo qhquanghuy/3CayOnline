@@ -28,7 +28,7 @@ public class Main {
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             
             ViewController loginVC = createdRootViewController();
-            Router router = new Router(mainFrame.getContentPane(), loginVC);
+            Router router = new Router(mainFrame, loginVC);
            
             
             mainFrame.pack();

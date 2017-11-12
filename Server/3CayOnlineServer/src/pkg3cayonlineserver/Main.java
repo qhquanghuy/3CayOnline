@@ -6,8 +6,7 @@
 package pkg3cayonlineserver;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import pkg3cayonlinesharedmodel.Common;
 
 /**
  *
@@ -22,10 +21,10 @@ public class Main {
         // TODO code application logic here
         Server server;
         try {
-            server = new Server();
+            server = new Server(Common.Config.TCPServer.Port);
             server.listening();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         
     }

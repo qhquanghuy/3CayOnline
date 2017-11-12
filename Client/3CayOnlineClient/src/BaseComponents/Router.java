@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.function.Consumer;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,12 +18,14 @@ import javax.swing.SwingUtilities;
  */
 public class Router {
     protected ViewController currentViewController;
+    private final JFrame rootFrame;
     private final Container rootContainer;
     private final CardLayout cardLayout;
 
 
-    public Router(Container rootContainer, ViewController rootViewController) {
-        this.rootContainer = rootContainer;
+    public Router(JFrame rootFrame, ViewController rootViewController) {
+        this.rootFrame = rootFrame;
+        this.rootContainer = rootFrame.getContentPane();
         this.currentViewController = rootViewController;
         
         this.cardLayout = new CardLayout();
@@ -57,6 +60,7 @@ public class Router {
         addIfNeeded.accept(vc);
         SwingUtilities.invokeLater(() -> {
             this.cardLayout.show(this.rootContainer, vc.view.getIdentifier());
+            this.rootFrame.pack();
         });
         
         

@@ -28,18 +28,19 @@ public class UserDAO implements Serializable {
     }
     
     public Optional<UserInfo> getUserInfo(Account acc) throws SQLException {
-        String sql = "select id, firstname, lastname, score from User "
-                        + "where username = ? and password = ?";
+        String sql = "select id, username, firstname, lastname, score from User "
+                   + "where username = ? and password = ?";
         PreparedStatement preparedStm = this.conn.prepareStatement(sql);
         preparedStm.setString(1, acc.getUsername());
         preparedStm.setString(2, acc.getPassword());
         ResultSet result = preparedStm.executeQuery();
         
         if(result.next()) {
-            UserInfo userInfo = new UserInfo(result.getInt(1), 
-                                            result.getString(2), 
+            UserInfo userInfo = new UserInfo(result.getInt(1),
+                                            result.getString(2),
                                             result.getString(3), 
-                                            result.getInt(4));
+                                            result.getString(4), 
+                                            result.getInt(5));
             return Optional.of(userInfo);
         }
         return Optional.empty();

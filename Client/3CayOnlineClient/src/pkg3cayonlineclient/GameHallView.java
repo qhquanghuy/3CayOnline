@@ -6,6 +6,12 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.View;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import pkg3cayonlinesharedmodel.GameHallModel;
+import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
  *
@@ -19,6 +25,17 @@ public class GameHallView extends View {
     public GameHallView() {
         initComponents();
     }
+    
+    public void bind(UserInfo userInfo) {
+        this.lblUsername.setText(userInfo.getFirstname());
+        this.lblScore.setText((String.valueOf(userInfo.getScore())));
+    }
+    
+    public void bind(GameHallModel gameHallModel) {
+        DefaultTableModel model = (DefaultTableModel) this.tblOnlineUser.getModel();
+        System.out.println(model);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,24 +46,135 @@ public class GameHallView extends View {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblRoomList = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblOnlineUser = new javax.swing.JTable();
+        lblUsername = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblScore = new javax.swing.JLabel();
+        btnProfile = new javax.swing.JButton();
+        btnSignOut = new javax.swing.JButton();
 
-        jToolBar1.setRollover(true);
+        tblRoomList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "Title", "# of Players"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblRoomList.setColumnSelectionAllowed(true);
+        tblRoomList.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblRoomList);
+        tblRoomList.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblRoomList.getColumnModel().getColumnCount() > 0) {
+            tblRoomList.getColumnModel().getColumn(0).setPreferredWidth(1);
+        }
+
+        tblOnlineUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "User name"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblOnlineUser.setColumnSelectionAllowed(true);
+        tblOnlineUser.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblOnlineUser);
+        tblOnlineUser.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        lblUsername.setText("Username");
+
+        jLabel1.setText("Score:");
+
+        lblScore.setText("444");
+
+        btnProfile.setText("Profile");
+
+        btnSignOut.setText("Sign Out");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUsername)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblScore)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSignOut, javax.swing.GroupLayout.Alignment.TRAILING)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblUsername)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(lblScore))
+                        .addGap(40, 40, 40))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnProfile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSignOut)
+                        .addGap(18, 18, 18)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnSignOut;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblScore;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JTable tblOnlineUser;
+    private javax.swing.JTable tblRoomList;
     // End of variables declaration//GEN-END:variables
 }
