@@ -6,8 +6,6 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
-import java.io.IOException;
-import java.util.List;
 import javax.swing.SwingUtilities;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameHallModel;
@@ -23,6 +21,8 @@ public class GameHallViewController extends ViewController {
     
     private final UserInfo user;
     private GameHallModel gameHallData;
+    private boolean shouldKeepListening = true;
+    
     public GameHallViewController(UserInfo user) {
         super(new GameHallView());
         this.user = user;
@@ -44,22 +44,18 @@ public class GameHallViewController extends ViewController {
         Result<GameHallModel> result = this.getGameHallData();
             
         if(result.isError()) {
-            Helper.showMessage(view, result.errorVal());
+            this.view.showAlert(result.errorVal());
         } else {
             this.gameHallData = result.value();
             gameView.bind(this.gameHallData);
         }
-        gameView.bind(user);
+        
         this.listening();
     }
     
     public void listening() {
-        while(true) {
-            try {
-                Result<UserInfo> user = SocketHandler.sharedIntance().received(UserInfo.class);
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
+        while(this.shouldKeepListening) {
+            Result<Object> result = SocketHandler.sharedIntance().received(Object.class);
         }
     }
     

@@ -21,8 +21,8 @@ import pkg3cayonlinesharedmodel.UserInfo;
 public class LoginController {
     
     private final UserDAO dao;
-    private final ServerDelegate serverDelegate;
-    public LoginController(ServerDelegate serverDelegate) throws SQLException {
+    private final GameDelegate serverDelegate;
+    public LoginController(GameDelegate serverDelegate) throws SQLException {
         this.dao = new UserDAO(ServerConfig.MysqlDBURL, ServerConfig.DBUsername, ServerConfig.DBPassword);
         System.out.println("Connected to SQLServer at " + ServerConfig.MysqlDBURL);
         this.serverDelegate = serverDelegate;

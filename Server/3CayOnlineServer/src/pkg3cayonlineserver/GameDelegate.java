@@ -11,6 +11,6 @@ import pkg3cayonlinesharedmodel.UserInfo;
  *
  * @author huynguyen
  */
-public interface ServerDelegate {
+public interface GameDelegate {
     public boolean isSignedIn(UserInfo user);
 }

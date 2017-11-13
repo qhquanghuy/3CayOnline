@@ -5,18 +5,10 @@
  */
 package pkg3cayonlineclient;
 
-import BaseComponents.View;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
 /**
  *
  * @author huynguyen
  */
 public final class Helper {
-    public static void showMessage(View inView, String message) {
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(inView, message);
-        });
-    }
+    
 }

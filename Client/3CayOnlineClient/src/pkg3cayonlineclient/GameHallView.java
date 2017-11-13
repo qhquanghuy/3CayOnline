@@ -7,10 +7,12 @@ package pkg3cayonlineclient;
 
 import BaseComponents.View;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import pkg3cayonlinesharedmodel.GameHallModel;
+import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
@@ -32,9 +34,12 @@ public class GameHallView extends View {
     }
     
     public void bind(GameHallModel gameHallModel) {
-        DefaultTableModel model = (DefaultTableModel) this.tblOnlineUser.getModel();
-        System.out.println(model);
+        DefaultTableModel model = (DefaultTableModel) this.tblRoomList.getModel();
+        
+        System.out.println(model.getDataVector());
     }
+    
+    
     
 
     /**

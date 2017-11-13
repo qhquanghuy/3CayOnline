@@ -10,6 +10,7 @@ package pkg3cayonlinesharedmodel;
  * @author huynguyen
  */
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Result<T> {
@@ -27,6 +28,25 @@ public class Result<T> {
 
     public static <R> Result<R> error(String errorStr) {
         return new Result<>(null, errorStr);
+    }
+    
+    public<U> Result<U> map(Function<? super T, U> mapper) {
+        return Result.ok(mapper.apply(value()));
+    }
+
+    public void ifError(Consumer<String> consumer) {
+        if(isError()) {
+            consumer.accept(errorVal());
+        }
+    }
+    
+    public void either(Consumer<? super T> left, Consumer<String> right) {
+        if(isError()) {
+            right.accept(errorVal());
+        } else {
+            left.accept(value());
+        }
+           
     }
 
     public<U> Result<U> flatMap(Function<? super T, Result<U>> mapper) {

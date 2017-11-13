@@ -18,6 +18,8 @@ public class GameRoom implements Serializable {
     private String title;
     private final List<UserInfo> players;
     private final int maximumPlayer;
+    private Common.GameRoomStatus status;
+    
 
     public GameRoom(int id, String title, UserInfo player, int maximumPlayer) {
         this.id = id;
@@ -25,6 +27,7 @@ public class GameRoom implements Serializable {
         this.players = new ArrayList<>(4);
         this.maximumPlayer = maximumPlayer;
         this.players.set(0, player);
+        this.status = Common.GameRoomStatus.Waiting;
     }
     
     public UserInfo getHostedPlayer() {
@@ -80,6 +83,14 @@ public class GameRoom implements Serializable {
                 break;
             }
         }
+    }
+
+    public Common.GameRoomStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(Common.GameRoomStatus status) {
+        this.status = status;
     }
     
     

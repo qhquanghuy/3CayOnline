@@ -6,7 +6,6 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
-import java.io.IOException;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Request;
@@ -32,13 +31,8 @@ public class LoginViewController extends ViewController implements LoginViewDele
     public void onTapSignIn(Account acc) {
         Request req = new Request(Common.RequestURI.SignIn, acc);
         Result<UserInfo> result = SocketHandler.sharedIntance().get(req,UserInfo.class);
-            
-        if(result.isError()) {
-            Helper.showMessage(view, result.errorVal());
-                
-        } else {
-            this.router.show(new GameHallViewController(result.value()));
-        }
+        result.either(val -> this.router.show(new GameHallViewController(val)),
+                    err -> this.view.showAlert(err));
     }
     
 }

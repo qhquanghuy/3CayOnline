@@ -5,10 +5,18 @@
  */
 package BaseComponents;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author huynguyen
  */
-public class View extends JPanel implements Identifiable {}
+public class View extends JPanel implements Identifiable {
+    public void showAlert(String message) {
+         SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(this, message);
+        });
+    }
+}

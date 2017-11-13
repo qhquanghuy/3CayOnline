@@ -9,13 +9,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
-import pkg3cayonlinesharedmodel.GameHallModel;
-import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
 import pkg3cayonlinesharedmodel.UserInfo;
@@ -24,14 +19,11 @@ import pkg3cayonlinesharedmodel.UserInfo;
  *
  * @author HuyNguyen
  */
-public class Server implements Responseable, ServerDelegate {
+public class Server implements Responseable {
     
     private final ServerSocket serverSocket;
     private LoginController loginController;
-    private GameHallController gameHallController;
-    
-    private final List<UserHandler> onlineUsers = new ArrayList<>();
-    private final List<GameRoomHandler> gameRooms = new ArrayList<>();
+    private final GameHallController gameHallController = new GameHallController();
     
     
     public Server(int port) throws IOException {
@@ -59,54 +51,16 @@ public class Server implements Responseable, ServerDelegate {
     
     synchronized private LoginController getLoginController() throws SQLException {
         if (this.loginController == null) {
-            this.loginController = new LoginController(this);
+            this.loginController = new LoginController(this.gameHallController);
         }
         return this.loginController;
     }
     
-    synchronized private GameHallController getGameHallController() {
-        if (this.gameHallController == null) {
-            this.gameHallController = new GameHallController();
-        }
-        return this.gameHallController;
-    }
-    
-    private void signingUser(UserHandler client, UserInfo user) {
-        client.setUser(user);
-        synchronized(this.onlineUsers) {
-            this.notifyNewSignedUser(client, user);
-            this.onlineUsers.add(client);
-        }
-    }
-    
-    private void notifyNewSignedUser(UserHandler client, UserInfo user) {
-        for (UserHandler onlineUser : onlineUsers) {
-            try {
-                onlineUser.sending(new Response(Common.ResponseHeader.NewSignedUser, user));
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                client.closing();
-        }
-            
-        }
-    }
-    
-    private GameHallModel getGameHallModel() {
-        List<GameRoom> gameRoomes = this.gameRooms
-                                            .stream()
-                                            .map(e -> e.getGameRoom())
-                                            .collect(Collectors.toList());
-        List<UserInfo> users = this.onlineUsers
-                                    .stream()
-                                    .map(e -> e.getUser())
-                                    .collect(Collectors.toList());
-                                    
-        return new GameHallModel(gameRoomes, users);
-    }
     
     
-
+    
+    
+    
     @Override
     public Response getResponseForRequest(UserHandler client, Request request) {
         Common.RequestURI uri = (Common.RequestURI) request.getHeader();
@@ -115,6 +69,7 @@ public class Server implements Responseable, ServerDelegate {
         try {
             loginControl = getLoginController();
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return Response.systemError();
         }
         
@@ -123,7 +78,7 @@ public class Server implements Responseable, ServerDelegate {
                 Response<UserInfo> res = loginControl.getUserInfo((Account) request.getData());
                 
                 if(res.getHeader() != Common.ResponseHeader.Error) {
-                    this.signingUser(client, res.getData());
+                    this.gameHallController.signingUser(client, res.getData());
                 }
                 
                 return res;
@@ -132,30 +87,15 @@ public class Server implements Responseable, ServerDelegate {
             case LeaveRoom:
             case JoinRoom:
             case GetOnlineUsers:
-                return new Response(Common.ResponseHeader.Success, this.getGameHallModel());
+                return new Response(Common.ResponseHeader.Success, this.gameHallController.getGameHallModel());
             default:
                 return Response.resourceNotFound();
         }
     }
-
+    
     @Override
-    public synchronized boolean isSignedIn(UserInfo user) {
-        for (UserHandler onlineUser : onlineUsers) {
-            if(onlineUser.getUser().equals(user)) {
-                return true;
-            }
-        }
-        return false;
+    public void clientUnreachable(UserHandler client) {
+        this.gameHallController.removeUser(client);
     }
-
-    @Override
-    public synchronized void clientUnreachable(UserHandler client) {
-        this.onlineUsers.remove(client);
-    }
-    
-    
-    
-    
-    
     
 }

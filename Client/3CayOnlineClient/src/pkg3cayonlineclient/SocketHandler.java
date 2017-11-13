@@ -49,7 +49,7 @@ final public class SocketHandler {
         try {
             this.sending(req);
             return this.received(outputType);
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
             return Result.error("Something went wrong");
         }
@@ -77,11 +77,18 @@ final public class SocketHandler {
         }
     }
     
-    public <O> Result<O> received(Class<O> type) throws IOException, ClassNotFoundException {
-        if(this.input == null) {
+    public <O> Result<O> received(Class<O> type) {
+        Response response;
+        try {
+            if(this.input == null) {
             this.input = new ObjectInputStream(this.socket.getInputStream());
         }
-        return this.parse((Response) this.input.readObject(), type);
+            response = (Response) this.input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            response = Response.systemError();
+        }
+        return this.parse(response, type);
     }
     
     public void closing() throws IOException {

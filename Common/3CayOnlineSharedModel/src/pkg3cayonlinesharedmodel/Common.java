@@ -43,4 +43,9 @@ public final class Common {
         NewSignedUser,
         Notification
     }
+    
+    public enum GameRoomStatus {
+        Playing,
+        Waiting
+    }
 }

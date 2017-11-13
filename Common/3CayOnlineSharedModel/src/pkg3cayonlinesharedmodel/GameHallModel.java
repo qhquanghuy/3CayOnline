@@ -13,8 +13,8 @@ import java.util.List;
  * @author huynguyen
  */
 public class GameHallModel implements Serializable {
-    private List<GameRoom> gameRooms;
-    private List<UserInfo> onlinePlayers;
+    private final List<GameRoom> gameRooms;
+    private final List<UserInfo> onlinePlayers;
 
     public GameHallModel(List<GameRoom> gameRooms, List<UserInfo> onlinePlayers) {
         this.gameRooms = gameRooms;
@@ -25,17 +25,8 @@ public class GameHallModel implements Serializable {
         return onlinePlayers;
     }
 
-    public void setOnlinePlayers(List<UserInfo> onlinePlayers) {
-        this.onlinePlayers = onlinePlayers;
-    }
-
     public List<GameRoom> getGameRooms() {
         return gameRooms;
     }
-
-    public void setGameRooms(List<GameRoom> gameRooms) {
-        this.gameRooms = gameRooms;
-    }
-    
     
 }
