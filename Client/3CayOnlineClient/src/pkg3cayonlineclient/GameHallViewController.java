@@ -6,7 +6,6 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
-import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
@@ -53,7 +52,6 @@ public class GameHallViewController extends ViewController {
             this.gameHallData = result.value();
             Vector onlineUserData = this.gameHallData.getOnlinePlayers()
                                             .stream()
-                                            .filter(e -> !e.equals(this.user))
                                             .map(this::parseOnlineUser)
                                             .collect(Collectors.toCollection(Vector::new));
                                             
@@ -81,25 +79,42 @@ public class GameHallViewController extends ViewController {
     private Vector parseOnlineUser(UserInfo user) {
         Vector data = new Vector();
         data.add(user.getUsername());
+        data.add(user.getScore());
         return data;
     }
     
+    
+    private void addNewUserOnline(UserInfo user) {
+        GameHallView gameView = ((GameHallView) this.view);
+        gameView.addNewEntry(parseOnlineUser(user), gameView.getTblOnlineUser());
+        this.gameHallData.getOnlinePlayers().add(user);
+    }
+    
+    private void doUserOffline(UserInfo user) {
+        GameHallView gameView = ((GameHallView) this.view);
+        int index = this.gameHallData.getOnlinePlayers().indexOf(user);
+        gameView.removeEntry(index, gameView.getTblOnlineUser());
+        this.gameHallData.getOnlinePlayers().remove(index);
+                
+                
+    }
+        
     public void listening() {
         while(this.shouldKeepListening) {
             SocketHandler.sharedIntance().receiving(response -> {
                 switch (response.getHeader()) {
                     case Error:
                         this.view.showAlert((String) response.getData());
-                    
-                    case NewSignedUser:
-                        GameHallView gameView = ((GameHallView) this.view);
-                        
-                        gameView.addNewEntry(parseOnlineUser((UserInfo) response.getData()), 
-                                             gameView.getTblOnlineUser());
-                    
-                    default: break;
-                                
-                            
+                        break;
+                    case AUserOnline:
+                        Helper.parse(response, UserInfo.class)
+                              .either(this::addNewUserOnline, error -> this.view.showAlert(error));
+                        break;
+                    case AUserLeftGame:
+                        Helper.parse(response, UserInfo.class)
+                              .either(this::doUserOffline, error -> this.view.showAlert(error));
+                        break;
+                    default: break;                            
                 }
             });
         }

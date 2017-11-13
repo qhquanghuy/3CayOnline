@@ -62,19 +62,7 @@ final public class SocketHandler {
         
     }
     
-    private <I,O> Result<O> parse(Response<I> res, Class<O> outputType) {
-        
-        switch (res.getHeader()) {
-            case Error:
-                return Result.error((String) res.getData());
-            default:
-                I value = res.getData();
-                if(outputType.isInstance(value)) {
-                    return Result.ok((O) value);
-                }
-                return Result.error("Parsing error");
-        }
-    }
+    
     
     public <O> Result<O> received(Class<O> type) {
         Response response;
@@ -87,7 +75,7 @@ final public class SocketHandler {
             ex.printStackTrace();
             response = Response.systemError();
         }
-        return this.parse(response, type);
+        return Helper.parse(response, type);
     }
     
     public <O> void receiving(Consumer<Response<O>> parser) {

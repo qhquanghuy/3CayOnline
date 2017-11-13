@@ -84,10 +84,12 @@ public class Server implements Responseable {
                 return res;
             case SignOut:
             case CreateRoom:
+                
             case LeaveRoom:
             case JoinRoom:
             case GetOnlineUsers:
-                return new Response(Common.ResponseHeader.Success, this.gameHallController.getGameHallModel());
+                return new Response(Common.ResponseHeader.Success, 
+                                    this.gameHallController.getGameHallModel(client.getUser()));
             default:
                 return Response.resourceNotFound();
         }

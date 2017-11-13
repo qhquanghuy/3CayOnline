@@ -40,8 +40,9 @@ public final class Common {
     public enum ResponseHeader {
         Error,
         Success,
-        NewSignedUser,
-        Notification
+        AUserOnline,
+        AUserLeftRoom,
+        AUserLeftGame,
     }
     
     public enum GameRoomStatus {

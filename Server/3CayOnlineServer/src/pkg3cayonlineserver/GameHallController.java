@@ -32,6 +32,7 @@ public class GameHallController implements GameDelegate  {
     public void removeUser(UserHandler user) {
         synchronized(this.onlineUsers) {
             this.onlineUsers.remove(user);
+            this.notifyAllOnlineUsers(new Response<UserInfo>(Common.ResponseHeader.AUserLeftGame, user.getUser()));
         }
     }
 
@@ -39,25 +40,23 @@ public class GameHallController implements GameDelegate  {
     public void signingUser(UserHandler client, UserInfo user) {
         client.setUser(user);
         synchronized(this.onlineUsers) {
-            this.notifyNewSignedUser(client, user);
+            this.notifyAllOnlineUsers(new Response<UserInfo>(Common.ResponseHeader.AUserOnline, user));
             this.onlineUsers.add(client);
         }
     }
     
-    private void notifyNewSignedUser(UserHandler client, UserInfo user) {
-        for (UserHandler onlineUser : onlineUsers) {
+    private void notifyAllOnlineUsers(Response message) {
+        onlineUsers.forEach((onlineUser) -> {
             try {
-                onlineUser.sending(new Response(Common.ResponseHeader.NewSignedUser, user));
-
+                onlineUser.sending(message);
             } catch (IOException ex) {
                 ex.printStackTrace();
-                client.closing();
+                onlineUser.closing();
             }
-            
-        }
+        });
     }
     
-    public GameHallModel getGameHallModel() {
+    public GameHallModel getGameHallModel(UserInfo user) {
         List<GameRoom> gameRoomes = this.gameRooms
                                             .stream()
                                             .map(e -> e.getGameRoom())
@@ -65,6 +64,7 @@ public class GameHallController implements GameDelegate  {
         List<UserInfo> users = this.onlineUsers
                                     .stream()
                                     .map(e -> e.getUser())
+                                    .filter(e -> !e.equals(user))
                                     .collect(Collectors.toList());
                                     
         return new GameHallModel(gameRoomes, users);

@@ -65,7 +65,6 @@ public class UserHandler extends Thread {
                 ex.printStackTrace();
         } finally {
             this.closing();
-            this.serverDelegate.clientUnreachable(this);
         }                
     }
     
@@ -74,6 +73,7 @@ public class UserHandler extends Thread {
             this.input.close();
             this.output.close();
             this.socket.close();
+            this.serverDelegate.clientUnreachable(this);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

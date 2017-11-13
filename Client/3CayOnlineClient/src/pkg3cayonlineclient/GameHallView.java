@@ -40,6 +40,10 @@ public class GameHallView extends View {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         SwingUtilities.invokeLater(() -> model.addRow(obj));
     }
+    public void removeEntry(int index, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        SwingUtilities.invokeLater(() -> model.removeRow(index));
+    }
     
     private Vector getColumnNames(DefaultTableModel model) {
         Vector<String> columNames = new Vector<>(model.getColumnCount());
@@ -110,12 +114,19 @@ public class GameHallView extends View {
 
             },
             new String [] {
-                "User name"
+                "User name", "Score"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
