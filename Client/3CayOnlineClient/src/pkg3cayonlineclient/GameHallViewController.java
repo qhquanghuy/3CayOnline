@@ -6,9 +6,13 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
+import java.util.List;
+import java.util.Vector;
+import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameHallModel;
+import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Result;
 import pkg3cayonlinesharedmodel.UserInfo;
@@ -47,15 +51,57 @@ public class GameHallViewController extends ViewController {
             this.view.showAlert(result.errorVal());
         } else {
             this.gameHallData = result.value();
-            gameView.bind(this.gameHallData);
+            Vector onlineUserData = this.gameHallData.getOnlinePlayers()
+                                            .stream()
+                                            .filter(e -> !e.equals(this.user))
+                                            .map(this::parseOnlineUser)
+                                            .collect(Collectors.toCollection(Vector::new));
+                                            
+            gameView.bind(onlineUserData, gameView.getTblOnlineUser());
+            
+            Vector gameRoomData = this.gameHallData.getGameRooms()
+                                            .stream()
+                                            .map(this::parseGameRoom)
+                                            .collect(Collectors.toCollection(Vector::new));
+            gameView.bind(gameRoomData, gameView.getTblRoomList());
         }
         
         this.listening();
     }
     
+    private Vector parseGameRoom(GameRoom room) {
+        Vector data = new Vector();
+        data.add(room.getId());
+        data.add(room.getTitle());
+        data.add(room.numberOfPlayers());
+        data.add(room.getStatus());
+        return data;
+    }
+     
+    private Vector parseOnlineUser(UserInfo user) {
+        Vector data = new Vector();
+        data.add(user.getUsername());
+        return data;
+    }
+    
     public void listening() {
         while(this.shouldKeepListening) {
-            Result<Object> result = SocketHandler.sharedIntance().received(Object.class);
+            SocketHandler.sharedIntance().receiving(response -> {
+                switch (response.getHeader()) {
+                    case Error:
+                        this.view.showAlert((String) response.getData());
+                    
+                    case NewSignedUser:
+                        GameHallView gameView = ((GameHallView) this.view);
+                        
+                        gameView.addNewEntry(parseOnlineUser((UserInfo) response.getData()), 
+                                             gameView.getTblOnlineUser());
+                    
+                    default: break;
+                                
+                            
+                }
+            });
         }
     }
     

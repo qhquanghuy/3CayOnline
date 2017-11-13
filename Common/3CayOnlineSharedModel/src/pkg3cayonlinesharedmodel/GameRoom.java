@@ -92,6 +92,12 @@ public class GameRoom implements Serializable {
     public void setStatus(Common.GameRoomStatus status) {
         this.status = status;
     }
+
+
+    public boolean equals(GameRoom obj) {
+        return this.id == obj.id;
+    }
+    
     
     
 }

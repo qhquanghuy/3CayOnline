@@ -6,13 +6,10 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.View;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Vector;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import pkg3cayonlinesharedmodel.GameHallModel;
-import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
@@ -23,20 +20,33 @@ public class GameHallView extends View {
 
     /**
      * Creates new form GameHallView
-     */
+     */    
     public GameHallView() {
         initComponents();
     }
     
     public void bind(UserInfo userInfo) {
-        this.lblUsername.setText(userInfo.getFirstname());
+        this.lblUsername.setText(userInfo.getUsername());
         this.lblScore.setText((String.valueOf(userInfo.getScore())));
     }
     
-    public void bind(GameHallModel gameHallModel) {
-        DefaultTableModel model = (DefaultTableModel) this.tblRoomList.getModel();
-        
-        System.out.println(model.getDataVector());
+    public void bind(Vector obj, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        SwingUtilities.invokeLater(() -> model.setDataVector(obj, getColumnNames(model)));
+    }
+    
+    public void addNewEntry(Vector obj, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        SwingUtilities.invokeLater(() -> model.addRow(obj));
+    }
+    
+    private Vector getColumnNames(DefaultTableModel model) {
+        Vector<String> columNames = new Vector<>(model.getColumnCount());
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            columNames.add(model.getColumnName(i));
+        }
+        return columNames;
     }
     
     
@@ -61,21 +71,27 @@ public class GameHallView extends View {
         lblScore = new javax.swing.JLabel();
         btnProfile = new javax.swing.JButton();
         btnSignOut = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
+        btnJoin = new javax.swing.JButton();
 
         tblRoomList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "ID", "Title", "# of Players"
+                "ID", "Title", "# of Players", "Status"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -91,10 +107,7 @@ public class GameHallView extends View {
 
         tblOnlineUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
                 "User name"
@@ -123,12 +136,21 @@ public class GameHallView extends View {
 
         btnSignOut.setText("Sign Out");
 
+        btnCreate.setText("Create");
+
+        btnJoin.setText("Join");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnJoin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCreate)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -147,7 +169,6 @@ public class GameHallView extends View {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -165,12 +186,21 @@ public class GameHallView extends View {
                         .addGap(18, 18, 18)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreate)
+                    .addComponent(btnJoin))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnJoin;
     private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnSignOut;
     private javax.swing.JLabel jLabel1;
@@ -182,4 +212,13 @@ public class GameHallView extends View {
     private javax.swing.JTable tblOnlineUser;
     private javax.swing.JTable tblRoomList;
     // End of variables declaration//GEN-END:variables
+
+    public javax.swing.JTable getTblOnlineUser() {
+        return tblOnlineUser;
+    }
+
+    public javax.swing.JTable getTblRoomList() {
+        return tblRoomList;
+    }
+
 }

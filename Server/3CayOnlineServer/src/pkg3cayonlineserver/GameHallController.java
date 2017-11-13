@@ -75,11 +75,7 @@ public class GameHallController implements GameDelegate  {
     
      @Override
     public synchronized boolean isSignedIn(UserInfo user) {
-        for (UserHandler onlineUser : onlineUsers) {
-            if(onlineUser.getUser().equals(user)) {
-                return true;
-            }
-        }
-        return false;
+        return onlineUsers.stream()
+                        .anyMatch(onlineUser -> (onlineUser.getUser().equals(user)));
     }
 }

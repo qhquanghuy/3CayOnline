@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.function.Consumer;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
@@ -89,6 +88,20 @@ final public class SocketHandler {
             response = Response.systemError();
         }
         return this.parse(response, type);
+    }
+    
+    public <O> void receiving(Consumer<Response<O>> parser) {
+        Response response;
+        try {
+            if(this.input == null) {
+            this.input = new ObjectInputStream(this.socket.getInputStream());
+        }
+            response = (Response) this.input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            response = Response.systemError();
+        }
+        parser.accept(response);
     }
     
     public void closing() throws IOException {
