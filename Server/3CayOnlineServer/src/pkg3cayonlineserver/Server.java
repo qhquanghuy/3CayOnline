@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameRoom;
@@ -25,7 +27,7 @@ public class Server implements Responseable {
     private final ServerSocket serverSocket;
     private LoginController loginController;
     private final GameHallController gameHallController = new GameHallController();
-    
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(20);
     
     public Server(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);        
@@ -41,7 +43,7 @@ public class Server implements Responseable {
                 System.out.println("####Connected Client" + aceptedSocket.getInetAddress() 
                                     + " on " + aceptedSocket.getPort());
                 
-                new UserHandler(aceptedSocket, this).start();
+                this.threadPool.submit(new UserHandler(aceptedSocket, this));
                 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -84,8 +86,10 @@ public class Server implements Responseable {
                 
                 return res;
             case SignOut:
+                this.gameHallController.signingOutUser(client);
+                return new Response(Common.ResponseHeader.Success,"");
             case CreateRoom:
-                return new Response(Common.ResponseHeader.ARoomCreated, 
+                return new Response(Common.ResponseHeader.Success, 
                                     this.gameHallController.createdRoom((GameRoom) request.getData(), client));
             case LeaveRoom:
             case JoinRoom:

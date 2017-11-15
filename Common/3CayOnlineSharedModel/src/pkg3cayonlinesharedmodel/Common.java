@@ -40,11 +40,15 @@ public final class Common {
     public enum ResponseHeader {
         Error,
         Success,
+        
+        // NOTIFCATIONs
         AUserOnline,
         AUserLeftRoom,
         AUserLeftGame,
+        
         ARoomCreated,
         ARoomRemoved,
+        ARoomUpdated,
     }
     
     public enum GameRoomStatus {

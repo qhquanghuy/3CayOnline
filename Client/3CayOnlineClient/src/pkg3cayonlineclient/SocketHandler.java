@@ -46,6 +46,9 @@ final public class SocketHandler {
     
     public <O> Result<O> get(Request req, Class<O> outputType) {
         try {
+            if(this.isClosed()) {
+                this.opening();
+            }
             this.sending(req);
             return this.received(outputType);
         } catch (IOException ex) {
@@ -55,6 +58,9 @@ final public class SocketHandler {
     }
     
     public void sending(Request req) throws IOException {
+        if(this.isClosed()) {
+            this.opening();
+        }
         if(this.output == null) {
             this.output = new ObjectOutputStream(this.socket.getOutputStream());
         }
@@ -65,8 +71,12 @@ final public class SocketHandler {
     
     
     public <O> Result<O> received(Class<O> type) {
+        
         Response response;
         try {
+            if(this.isClosed()) {
+                this.opening();
+            }
             if(this.input == null) {
             this.input = new ObjectInputStream(this.socket.getInputStream());
         }

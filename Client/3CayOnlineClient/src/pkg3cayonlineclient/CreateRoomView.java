@@ -5,38 +5,24 @@
  */
 package pkg3cayonlineclient;
 
-import java.util.function.Consumer;
-import javax.swing.SwingUtilities;
+import BaseComponents.View;
 import pkg3cayonlinesharedmodel.GameRoom;
 
 /**
  *
- * @author HuyNguyen
+ * @author huynguyen
  */
-public class CreateRoomView extends javax.swing.JFrame {
+public class CreateRoomView extends View {
 
     /**
      * Creates new form CreateRoomView
      */
-    
-    
-    private Consumer<GameRoom> onTapCreate;
-    
-    
-
-    public void setOnTapCreate(Consumer<GameRoom> onTapCreate) {
-        this.onTapCreate = onTapCreate;
+    public CreateRoomView() {
+        initComponents();
     }
     
-    
-    
-    
-    public CreateRoomView() {
-        SwingUtilities.invokeLater(() -> {
-            initComponents();
-                    
-        });
-        
+    public GameRoom getGameRoom() {
+        return new GameRoom(this.txfTitle.getText(), (int) this.cbxMaximum.getSelectedItem());
     }
 
     /**
@@ -50,96 +36,50 @@ public class CreateRoomView extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         txfTitle = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         cbxMaximum = new javax.swing.JComboBox<>();
-        btnCreate = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
+        jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setText("Title");
 
-        txfTitle.setText("Come n Play!!!!");
+        txfTitle.setText("Come n Play!!!");
+
+        cbxMaximum.setMaximumRowCount(3);
+        cbxMaximum.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 4,3,2 }));
 
         jLabel2.setText("Maximum Players");
 
-        cbxMaximum.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 4, 3, 2, 1 }));
-
-        btnCreate.setText("Create");
-        btnCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateActionPerformed(evt);
-            }
-        });
-
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(73, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCreate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxMaximum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(132, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxMaximum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cbxMaximum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
-                    .addComponent(btnCancel))
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(cbxMaximum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-        
-        GameRoom gameRoom = new GameRoom(this.txfTitle.getText(), this.cbxMaximum.getItemAt(this.cbxMaximum.getSelectedIndex()));
-        
-        new Thread(() -> this.onTapCreate.accept(gameRoom)).start();
-    }//GEN-LAST:event_btnCreateActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox<Integer> cbxMaximum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

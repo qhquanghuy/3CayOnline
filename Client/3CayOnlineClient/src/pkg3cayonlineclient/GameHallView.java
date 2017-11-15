@@ -100,7 +100,7 @@ public class GameHallView extends View {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -159,6 +159,11 @@ public class GameHallView extends View {
         btnProfile.setText("Profile");
 
         btnSignOut.setText("Sign Out");
+        btnSignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignOutActionPerformed(evt);
+            }
+        });
 
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -228,8 +233,13 @@ public class GameHallView extends View {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        delegate.onTapBtnCreate();
+        this.delegate.onTapBtnCreate();
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignOutActionPerformed
+        // TODO add your handling code here:
+        this.delegate.onTapBtnSignOut();
+    }//GEN-LAST:event_btnSignOutActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

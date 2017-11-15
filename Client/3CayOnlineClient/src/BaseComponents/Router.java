@@ -41,8 +41,18 @@ public class Router {
     public ViewController getCurrentController() {
         return currentViewController;
     }
+    
+    public void pop() {
+        SwingUtilities.invokeLater(() -> {
+            this.cardLayout.previous(rootContainer);
+            this.rootFrame.pack();
+            this.rootFrame.invalidate();
+            Component[] components = this.rootContainer.getComponents();
+            this.rootContainer.remove(components[components.length - 1]);
+        });
+    }
 
-    public void show(ViewController vc) {
+    public void push(ViewController vc) {
         this.currentViewController = vc;      
         Component[] components = this.rootContainer.getComponents();
         
@@ -60,6 +70,7 @@ public class Router {
         SwingUtilities.invokeLater(() -> {
             this.cardLayout.show(this.rootContainer, vc.view.getIdentifier());
             this.rootFrame.pack();
+            this.rootFrame.invalidate();
         });
         
         

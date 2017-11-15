@@ -5,6 +5,7 @@
  */
 package BaseComponents;
 
+import java.util.function.Consumer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -18,5 +19,16 @@ public class View extends JPanel implements Identifiable {
          SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(this, message);
         });
+    }
+    
+    public void presentConfirm(ViewController vc, Consumer<Boolean> onDismiss) {
+        SwingUtilities.invokeLater(() -> {
+            int dismissVal = JOptionPane.showConfirmDialog(this,vc.view, "Edit Customer:"
+                                        ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            
+            onDismiss.accept(dismissVal == 0);
+            
+        });
+        
     }
 }

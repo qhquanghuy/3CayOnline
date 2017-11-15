@@ -28,31 +28,105 @@ public class GameRoomView extends View {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblUserNameBottom = new javax.swing.JLabel();
+        lblUserScoreBottom = new javax.swing.JLabel();
+        lblUserNameRight = new javax.swing.JLabel();
+        lblUserScoreRight = new javax.swing.JLabel();
+        lblUserScoreTop = new javax.swing.JLabel();
+        lblUserNameTop = new javax.swing.JLabel();
+        lblUserScoreLeft = new javax.swing.JLabel();
+        lblUserNameLeft = new javax.swing.JLabel();
+        btnStart = new javax.swing.JButton();
 
-        jLabel1.setText("this is game room");
+        lblUserNameBottom.setText("UserName");
+
+        lblUserScoreBottom.setText("Score");
+
+        lblUserNameRight.setText("UserName");
+
+        lblUserScoreRight.setText("Score");
+
+        lblUserScoreTop.setText("Score");
+
+        lblUserNameTop.setText("UserName");
+
+        lblUserScoreLeft.setText("Score");
+
+        lblUserNameLeft.setText("UserName");
+
+        btnStart.setText("Start");
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(jLabel1)
-                .addContainerGap(472, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblUserNameLeft)
+                .addGap(18, 18, 18)
+                .addComponent(lblUserScoreLeft)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblUserNameTop)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblUserScoreTop))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(lblUserNameBottom)
+                            .addGap(18, 18, 18)
+                            .addComponent(lblUserScoreBottom)
+                            .addGap(254, 254, 254))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btnStart)
+                            .addGap(136, 136, 136)
+                            .addComponent(lblUserNameRight)
+                            .addGap(18, 18, 18)
+                            .addComponent(lblUserScoreRight)
+                            .addGap(19, 19, 19)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(246, 246, 246)
-                .addComponent(jLabel1)
-                .addContainerGap(314, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUserNameTop)
+                    .addComponent(lblUserScoreTop))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUserNameRight)
+                    .addComponent(lblUserScoreRight)
+                    .addComponent(lblUserNameLeft)
+                    .addComponent(lblUserScoreLeft)
+                    .addComponent(btnStart))
+                .addGap(139, 139, 139)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUserNameBottom)
+                    .addComponent(lblUserScoreBottom))
+                .addGap(47, 47, 47))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStartActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JLabel lblUserNameBottom;
+    private javax.swing.JLabel lblUserNameLeft;
+    private javax.swing.JLabel lblUserNameRight;
+    private javax.swing.JLabel lblUserNameTop;
+    private javax.swing.JLabel lblUserScoreBottom;
+    private javax.swing.JLabel lblUserScoreLeft;
+    private javax.swing.JLabel lblUserScoreRight;
+    private javax.swing.JLabel lblUserScoreTop;
     // End of variables declaration//GEN-END:variables
 
 }

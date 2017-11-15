@@ -24,14 +24,14 @@ public class LoginViewController extends ViewController implements LoginViewDele
 
     @Override
     public void onTapRegister() {
-        this.getRouter().show(new RegisterViewController());
+        this.getRouter().push(new RegisterViewController());
     }
 
     @Override
     public void onTapSignIn(Account acc) {
         Request req = new Request(Common.RequestURI.SignIn, acc);
         Result<UserInfo> result = SocketHandler.sharedIntance().get(req,UserInfo.class);
-        result.either(val -> this.router.show(new GameHallViewController(val)),
+        result.either(val -> this.router.push(new GameHallViewController(val)),
                     err -> this.view.showAlert(err));
     }
     
