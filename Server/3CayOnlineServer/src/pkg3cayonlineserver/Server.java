@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
+import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
 import pkg3cayonlinesharedmodel.UserInfo;
@@ -78,13 +79,14 @@ public class Server implements Responseable {
                 Response<UserInfo> res = loginControl.getUserInfo((Account) request.getData());
                 
                 if(res.getHeader() != Common.ResponseHeader.Error) {
-                    this.gameHallController.signingUser(client, res.getData());
+                    this.gameHallController.signingInUser(client, res.getData());
                 }
                 
                 return res;
             case SignOut:
             case CreateRoom:
-                
+                return new Response(Common.ResponseHeader.ARoomCreated, 
+                                    this.gameHallController.createdRoom((GameRoom) request.getData(), client));
             case LeaveRoom:
             case JoinRoom:
             case GetOnlineUsers:

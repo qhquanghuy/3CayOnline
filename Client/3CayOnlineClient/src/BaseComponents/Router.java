@@ -30,7 +30,6 @@ public class Router {
         
         this.cardLayout = new CardLayout();
         this.rootContainer.setLayout(this.cardLayout);
-        
         this.add(rootViewController);   
     }
     

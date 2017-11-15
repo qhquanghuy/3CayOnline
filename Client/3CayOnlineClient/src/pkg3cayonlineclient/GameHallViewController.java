@@ -7,7 +7,9 @@ package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
 import java.util.Vector;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameHallModel;
@@ -20,7 +22,7 @@ import pkg3cayonlinesharedmodel.UserInfo;
  *
  * @author huynguyen
  */
-public class GameHallViewController extends ViewController {
+public class GameHallViewController extends ViewController implements GameHallDelegate {
     
     private final UserInfo user;
     private GameHallModel gameHallData;
@@ -28,10 +30,12 @@ public class GameHallViewController extends ViewController {
     
     public GameHallViewController(UserInfo user) {
         super(new GameHallView());
+        
         this.user = user;
         
         SwingUtilities.invokeLater(() -> {
             ((GameHallView) this.view).bind(user);
+            
             new Thread(() -> this.viewDidLoad()).start();
         });
         
@@ -44,6 +48,7 @@ public class GameHallViewController extends ViewController {
     
     public void viewDidLoad() {
         GameHallView gameView = ((GameHallView) this.view);
+        gameView.setDelegate(this);
         Result<GameHallModel> result = this.getGameHallData();
             
         if(result.isError()) {
@@ -71,7 +76,7 @@ public class GameHallViewController extends ViewController {
         Vector data = new Vector();
         data.add(room.getId());
         data.add(room.getTitle());
-        data.add(room.numberOfPlayers());
+        data.add(room.getPlayersInRoom());
         data.add(room.getStatus());
         return data;
     }
@@ -114,10 +119,35 @@ public class GameHallViewController extends ViewController {
                         Helper.parse(response, UserInfo.class)
                               .either(this::doUserOffline, error -> this.view.showAlert(error));
                         break;
+                    case ARoomCreated:
+                        break;
                     default: break;                            
                 }
             });
         }
+    }
+
+    @Override
+    public void onTapBtnProfile() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onTapBtnSignOut() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onTapBtnJoin() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onTapBtnCreate() {
+        Consumer<Result<GameRoom>> createdHandler = result -> {
+            result.either(gameRoom -> this.router.show(new GameRoomViewController()), error -> this.view.showAlert(error));
+        };
+        new CreateRoomController(this.user,createdHandler).setVisible(true);
     }
     
     

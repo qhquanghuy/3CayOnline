@@ -22,13 +22,26 @@ import pkg3cayonlinesharedmodel.UserInfo;
 public class GameHallController implements GameDelegate  {
     private final List<UserHandler> onlineUsers = new ArrayList<>();
     private final List<GameRoomHandler> gameRooms = new ArrayList<>();
+    private int gameRoomId = 0;
     public GameHallController() {
     }
 
-    public List<UserHandler> getSignedInUsers() {
-        return onlineUsers;
+//    public List<UserHandler> getSignedInUsers() {
+//        return onlineUsers;
+//    }
+    
+    
+    public synchronized GameRoom createdRoom(GameRoom gameRoom, UserHandler client) {
+        gameRoom.setId(this.gameRoomId);
+        this.gameRoomId += 1;
+        GameRoomHandler roomHandler = new GameRoomHandler(gameRoom, client);
+        this.gameRooms.add(roomHandler);
+        this.notifyAllOnlineUsers(new Response(Common.ResponseHeader.ARoomCreated, gameRoom));
+        return gameRoom;
     }
     
+        
+        
     public void removeUser(UserHandler user) {
         synchronized(this.onlineUsers) {
             this.onlineUsers.remove(user);
@@ -37,7 +50,7 @@ public class GameHallController implements GameDelegate  {
     }
 
 
-    public void signingUser(UserHandler client, UserInfo user) {
+    public void signingInUser(UserHandler client, UserInfo user) {
         client.setUser(user);
         synchronized(this.onlineUsers) {
             this.notifyAllOnlineUsers(new Response<UserInfo>(Common.ResponseHeader.AUserOnline, user));

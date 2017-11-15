@@ -5,6 +5,7 @@
  */
 package pkg3cayonlineserver;
 
+import java.util.ArrayList;
 import java.util.List;
 import pkg3cayonlinesharedmodel.GameRoom;
 
@@ -14,11 +15,24 @@ import pkg3cayonlinesharedmodel.GameRoom;
  */
 public class GameRoomHandler {
     private GameRoom gameRoom;
-    private List<UserHandler> userHandler;
+    private List<UserHandler> userHandlers;
 
-    public GameRoomHandler(GameRoom gameRoom, List<UserHandler> userHandler) {
+    public GameRoomHandler(GameRoom gameRoom, UserHandler userHandler) {
         this.gameRoom = gameRoom;
-        this.userHandler = userHandler;
+        this.userHandlers = new ArrayList<>();
+        this.userHandlers.add(userHandler);
+    }
+    
+    public synchronized void addPlayer(UserHandler userHandler) {
+        boolean canAdd = this.gameRoom.addPlayer(userHandler.getUser());
+        if(canAdd) {
+            this.userHandlers.add(userHandler);
+        }
+    }
+    
+    
+    public UserHandler getHost() {
+        return this.userHandlers.get(0);
     }
 
     public GameRoom getGameRoom() {
@@ -30,12 +44,9 @@ public class GameRoomHandler {
     }
 
     public List<UserHandler> getUserHandler() {
-        return userHandler;
+        return userHandlers;
     }
 
-    public void setUserHandler(List<UserHandler> userHandler) {
-        this.userHandler = userHandler;
-    }
     
     
     

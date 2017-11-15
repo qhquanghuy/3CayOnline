@@ -18,16 +18,30 @@ public class GameRoom implements Serializable {
     private String title;
     private final List<UserInfo> players;
     private final int maximumPlayer;
-    private Common.GameRoomStatus status;
+    private Common.GameRoomStatus status = Common.GameRoomStatus.Waiting;
+
+    public int getMaximumPlayer() {
+        return maximumPlayer;
+    }
     
 
-    public GameRoom(int id, String title, UserInfo player, int maximumPlayer) {
-        this.id = id;
+//    public GameRoom(String title, UserInfo player, int maximumPlayer) {
+//        this.title = title;
+//        this.players = new ArrayList<>();
+//        this.maximumPlayer = maximumPlayer;
+//        this.players.set(0, player);
+//        this.status = Common.GameRoomStatus.Waiting;
+//    }
+    
+    public GameRoom(String title, int maximumPlayer) {
         this.title = title;
-        this.players = new ArrayList<>(4);
+        this.players = new ArrayList<>();
         this.maximumPlayer = maximumPlayer;
-        this.players.set(0, player);
         this.status = Common.GameRoomStatus.Waiting;
+    }
+    
+    public void setHostedPlayer(UserInfo user) {
+        this.players.set(0, user);
     }
     
     public UserInfo getHostedPlayer() {
@@ -54,7 +68,7 @@ public class GameRoom implements Serializable {
         return players;
     }
     
-    public int numberOfPlayers() {
+    public int getPlayersInRoom() {
         return (int) this.players
                         .stream()
                         .filter(e -> e != null)
@@ -71,10 +85,10 @@ public class GameRoom implements Serializable {
         }
     }
 
-    public void addPlayer(UserInfo player) {
+    public boolean addPlayer(UserInfo player) {
        
-        if(this.numberOfPlayers() >= this.maximumPlayer) {
-            return;
+        if(this.getPlayersInRoom() >= this.maximumPlayer) {
+            return false;
         }
         int length = this.players.size();
         for(int i = 0; i < length; ++i) {
@@ -83,6 +97,7 @@ public class GameRoom implements Serializable {
                 break;
             }
         }
+        return true;
     }
 
     public Common.GameRoomStatus getStatus() {
@@ -98,6 +113,8 @@ public class GameRoom implements Serializable {
         return this.id == obj.id;
     }
     
-    
+    public boolean isEmpty() {
+        return this.players.stream().allMatch(palyer -> palyer == null);
+    }
     
 }

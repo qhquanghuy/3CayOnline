@@ -21,6 +21,19 @@ public class GameHallView extends View {
     /**
      * Creates new form GameHallView
      */    
+    
+    
+    private GameHallDelegate delegate;
+
+    public GameHallDelegate getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(GameHallDelegate delegate) {
+        this.delegate = delegate;
+    }
+    
+    
     public GameHallView() {
         initComponents();
     }
@@ -148,6 +161,11 @@ public class GameHallView extends View {
         btnSignOut.setText("Sign Out");
 
         btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnJoin.setText("Join");
 
@@ -156,12 +174,13 @@ public class GameHallView extends View {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnJoin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCreate)))
+                        .addComponent(btnCreate))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -173,7 +192,7 @@ public class GameHallView extends View {
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblScore)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnSignOut, javax.swing.GroupLayout.Alignment.TRAILING)))))
@@ -197,16 +216,20 @@ public class GameHallView extends View {
                         .addGap(18, 18, 18)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate)
-                    .addComponent(btnJoin))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnJoin)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        delegate.onTapBtnCreate();
+    }//GEN-LAST:event_btnCreateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

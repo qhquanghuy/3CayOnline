@@ -43,6 +43,8 @@ public final class Common {
         AUserOnline,
         AUserLeftRoom,
         AUserLeftGame,
+        ARoomCreated,
+        ARoomRemoved,
     }
     
     public enum GameRoomStatus {
