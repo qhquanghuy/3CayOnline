@@ -5,12 +5,12 @@
  */
 package pkg3cayonlineserver;
 
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
  * @author huynguyen
  */
 public interface GameDelegate {
-    public boolean isSignedIn(UserInfo user);
+    public boolean isSignedIn(Player user);
 }

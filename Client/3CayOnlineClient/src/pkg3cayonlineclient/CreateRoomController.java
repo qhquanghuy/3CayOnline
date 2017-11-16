@@ -7,7 +7,7 @@ package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
 import pkg3cayonlinesharedmodel.GameRoom;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 
 /**
@@ -16,9 +16,9 @@ import pkg3cayonlinesharedmodel.UserInfo;
  */
 public class CreateRoomController extends ViewController<CreateRoomView> {
     
-    private final UserInfo user;
+    private final Player user;
 
-    public CreateRoomController(UserInfo user) {
+    public CreateRoomController(Player user) {
         super(new CreateRoomView());
         this.user = user;
         

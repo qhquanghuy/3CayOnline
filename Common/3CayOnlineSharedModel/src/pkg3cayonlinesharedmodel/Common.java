@@ -20,7 +20,7 @@ public final class Common {
         
         public final class RMIServer {
             static public final String Host = "localhost";
-            static public final int Port = 1353;
+            static public final int Port = 1551;
         }
         
         
@@ -35,7 +35,7 @@ public final class Common {
         LeaveRoom,
         JoinRoom,
         GetOnlineUsers,
-        
+        StartGame,
     }
     public enum ResponseHeader {
         Error,
@@ -49,11 +49,43 @@ public final class Common {
         ARoomCreated,
         ARoomRemoved,
         ARoomUpdated,
+        ARoomStarted,
     }
     
     public enum GameRoomStatus {
         Playing,
         Waiting
+    }
+    
+    public enum CardType {
+        Heart(3),
+        Diamonds(4),
+        Clubs(2),
+        Spades(1);
+
+        private final int intVal;
+
+        public int getIntVal() {
+            return intVal;
+        }
+
+        private CardType(int intVal) {
+            this.intVal = intVal;
+        }
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case Diamonds: return "♦";
+                case Heart: return "♥";
+                case Spades: return "♠";
+                case Clubs: return "♣";
+            }
+            return null;
+        }
+        
+        
+        
     }
     
 //    public enum GameRoomPosition {

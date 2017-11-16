@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class GameHallModel implements Serializable {
     private final List<GameRoom> gameRooms;
-    private final List<UserInfo> onlinePlayers;
+    private final List<Player> onlinePlayers;
 
-    public GameHallModel(List<GameRoom> gameRooms, List<UserInfo> onlinePlayers) {
+    public GameHallModel(List<GameRoom> gameRooms, List<Player> onlinePlayers) {
         this.gameRooms = gameRooms;
         this.onlinePlayers = onlinePlayers;
     }
 
-    public List<UserInfo> getOnlinePlayers() {
+    public List<Player> getOnlinePlayers() {
         return onlinePlayers;
     }
 

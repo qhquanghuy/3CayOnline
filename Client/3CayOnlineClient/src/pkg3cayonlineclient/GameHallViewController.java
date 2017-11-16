@@ -18,7 +18,7 @@ import pkg3cayonlinesharedmodel.GameHallModel;
 import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Result;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -26,11 +26,11 @@ import pkg3cayonlinesharedmodel.UserInfo;
  */
 public class GameHallViewController extends ViewController<GameHallView> implements GameHallDelegate {
     
-    private final UserInfo user;
+    private final Player user;
     private GameHallModel gameHallData;
     private boolean shouldKeepListening = true;
     
-    public GameHallViewController(UserInfo user) {
+    public GameHallViewController(Player user) {
         super(new GameHallView());
         
         this.user = user;
@@ -81,7 +81,7 @@ public class GameHallViewController extends ViewController<GameHallView> impleme
         return data;
     }
      
-    private Vector parseOnlineUser(UserInfo user) {
+    private Vector parseOnlineUser(Player user) {
         Vector data = new Vector();
         data.add(user.getUsername());
         data.add(user.getScore());
@@ -113,7 +113,7 @@ public class GameHallViewController extends ViewController<GameHallView> impleme
                         this.view.showAlert((String) response.getData());
                         break;
                     case AUserOnline:
-                        Helper.parse(response, UserInfo.class)
+                        Helper.parse(response, Player.class)
                               .either(userInfo -> {
                                   this.addNewEntryForTable(this.gameHallData.getOnlinePlayers(), 
                                           userInfo, 
@@ -122,7 +122,7 @@ public class GameHallViewController extends ViewController<GameHallView> impleme
                               },this.view::showAlert);
                         break;
                     case AUserLeftGame:
-                        Helper.parse(response, UserInfo.class)
+                        Helper.parse(response, Player.class)
                               .either(userInfo -> {
                                   this.removeNewEntryForTable(this.gameHallData.getOnlinePlayers(), 
                                           userInfo, 

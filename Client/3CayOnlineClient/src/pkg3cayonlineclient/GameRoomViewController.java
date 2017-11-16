@@ -6,41 +6,52 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
+import java.io.IOException;
+import javax.swing.SwingUtilities;
+import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameRoom;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Request;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
  * @author HuyNguyen
  */
-public class GameRoomViewController extends ViewController<GameRoomView> {
+public class GameRoomViewController extends ViewController<GameRoomView> implements GameRoomDelegate {
     private final GameRoom gameRoom;
-    private final UserInfo user;
+    private final Player user;
     private boolean shouldKeepListening = true;
-    public GameRoomViewController(GameRoom gameRoom,UserInfo user) {
+    public GameRoomViewController(GameRoom gameRoom,Player user) {
         super(new GameRoomView());
         this.user = user;
-        this.view.bindRoom(gameRoom);
-        this.view.bindPlayer(user);
         this.gameRoom = gameRoom;
         this.gameRoom.addPlayer(user);        
+        SwingUtilities.invokeLater(this::viewDidLoad);
         
+        
+    }
+    
+    
+    private void viewDidLoad() {
+        this.view.bindRoom(gameRoom);
+        this.view.bindPlayer(user);
         this.gameRoom.getPlayers().forEach(p -> {
             if(!p.equals(this.user)) {
                 this.view.bindPlayer(p);
             }
         });
+        this.view.setDelegate(this);
         this.view.showStartGameBtn(this.user.equals(this.gameRoom.getHostedPlayer()));
         new Thread(this::listening).start();
     }
     
-    private void addAPlayer(UserInfo user) {
+    private void addAPlayer(Player user) {
         this.gameRoom.addPlayer(user);
         this.view.bindPlayer(user);
     }
    
     
-    private void removeAPlayer(UserInfo user) {
+    private void removeAPlayer(Player user) {
         this.view.removeAPlayer(user);
         this.gameRoom.removePlayer(user);
     }
@@ -54,11 +65,11 @@ public class GameRoomViewController extends ViewController<GameRoomView> {
                         this.view.showAlert((String) response.getData());
                         break;
                     case AUserLeftRoom:
-                        Helper.parse(response, UserInfo.class)
+                        Helper.parse(response, Player.class)
                               .either(this::removeAPlayer, this.view::showAlert);
                         break;
                     case AUserJoinGame:
-                        Helper.parse(response, UserInfo.class)
+                        Helper.parse(response, Player.class)
                               .either(this::addAPlayer, this.view::showAlert);
                         break;
                     case Success:
@@ -70,6 +81,15 @@ public class GameRoomViewController extends ViewController<GameRoomView> {
             });
         }
         System.out.println("Stop listening");
+    }
+
+    @Override
+    public void onTapStart() {
+        try {
+            SocketHandler.sharedIntance().sending(new Request(Common.RequestURI.StartGame, this.gameRoom));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }

@@ -16,8 +16,7 @@ import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
-import pkg3cayonlinesharedmodel.Result;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -43,7 +42,7 @@ public class Server implements Responseable {
                 Socket aceptedSocket = this.serverSocket.accept();
                 System.out.println("####Connected Client" + aceptedSocket.getInetAddress() 
                                     + " on " + aceptedSocket.getPort());
-                
+
                 this.threadPool.submit(new UserHandler(aceptedSocket, this));
                 
             } catch (IOException ex) {
@@ -79,7 +78,7 @@ public class Server implements Responseable {
         
         switch (uri) {
             case SignIn:
-                Response<UserInfo> res = loginControl.getUserInfo((Account) request.getData());
+                Response<Player> res = loginControl.getUserInfo((Account) request.getData());
                 
                 if(res.getHeader() != Common.ResponseHeader.Error) {
                     this.gameHallController.signingInUser(client, res.getData());
@@ -98,6 +97,8 @@ public class Server implements Responseable {
             case GetOnlineUsers:
                 return new Response(Common.ResponseHeader.Success, 
                                     this.gameHallController.getGameHallModel(client.getUser()));
+            case StartGame:
+                
             default:
                 return Response.resourceNotFound();
         }

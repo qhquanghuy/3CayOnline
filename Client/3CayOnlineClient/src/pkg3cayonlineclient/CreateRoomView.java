@@ -7,7 +7,7 @@ package pkg3cayonlineclient;
 
 import BaseComponents.View;
 import pkg3cayonlinesharedmodel.GameRoom;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -22,7 +22,7 @@ public class CreateRoomView extends View {
         initComponents();
     }
     
-    public GameRoom getGameRoom(UserInfo user) {
+    public GameRoom getGameRoom(Player user) {
         return new GameRoom(this.txfTitle.getText(), user, (int) this.cbxMaximum.getSelectedItem());
     }
 

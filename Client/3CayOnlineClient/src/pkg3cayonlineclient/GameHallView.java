@@ -10,7 +10,7 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -38,7 +38,7 @@ public class GameHallView extends View {
         initComponents();
     }
     
-    public void bind(UserInfo userInfo) {
+    public void bind(Player userInfo) {
         this.lblUsername.setText(userInfo.getUsername());
         this.lblScore.setText((String.valueOf(userInfo.getScore())));
     }
@@ -95,7 +95,6 @@ public class GameHallView extends View {
         btnProfile = new javax.swing.JButton();
         btnSignOut = new javax.swing.JButton();
         btnCreate = new javax.swing.JButton();
-        btnJoin = new javax.swing.JButton();
 
         tblRoomList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -183,8 +182,6 @@ public class GameHallView extends View {
             }
         });
 
-        btnJoin.setText("Join");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,10 +189,7 @@ public class GameHallView extends View {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnJoin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCreate))
+                    .addComponent(btnCreate)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,9 +230,7 @@ public class GameHallView extends View {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
-                    .addComponent(btnJoin)))
+                .addComponent(btnCreate))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -266,7 +258,6 @@ public class GameHallView extends View {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnJoin;
     private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnSignOut;
     private javax.swing.JLabel jLabel1;

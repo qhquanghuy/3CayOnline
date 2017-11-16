@@ -8,7 +8,7 @@ package pkg3cayonlineclient;
 
 import BaseComponents.View;
 import pkg3cayonlinesharedmodel.GameRoom;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -17,6 +17,14 @@ import pkg3cayonlinesharedmodel.UserInfo;
 public final class GameRoomView extends View {
 
     /** Creates new form GameRoomView */
+    
+    private GameRoomDelegate delegate;
+
+    public void setDelegate(GameRoomDelegate delegate) {
+        this.delegate = delegate;
+    }
+    
+    
     public GameRoomView() {
         initComponents();
         this.lblBottomUserName.setText("");
@@ -35,7 +43,7 @@ public final class GameRoomView extends View {
         this.lblId.setText(String.valueOf(gameRoom.getId()));
         this.lblTitle.setText(gameRoom.getTitle());
     }
-    public void removeAPlayer(UserInfo player) {
+    public void removeAPlayer(Player player) {
         String name = player.getUsername();
         String score = parseScore(player.getScore());
         
@@ -65,7 +73,7 @@ public final class GameRoomView extends View {
         return score == -1 ? "" : String.valueOf(score);
     }
     
-    public void bindPlayer(UserInfo player) {
+    public void bindPlayer(Player player) {
         String name = player.getUsername();
         String score = parseScore(player.getScore());
         if(this.lblBottomUserName.getText().isEmpty()) {
@@ -210,6 +218,7 @@ public final class GameRoomView extends View {
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
+        this.delegate.onTapStart();
     }//GEN-LAST:event_btnStartActionPerformed
 
 

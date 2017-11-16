@@ -12,33 +12,58 @@ import java.util.Objects;
  *
  * @author huynguyen
  */
-public class UserInfo implements Serializable {
+public class Player implements Serializable {
     private int id;
     private String username;
+    private String password;
     private String firstname;
     private String lastname;
     private int score;
-    private static UserInfo _empty = new UserInfo();
-    static UserInfo empty() {
+    private DeckOfCards deck;
+    private static Player _empty = new Player();
+    static Player empty() {
         return _empty;
     }
     
-    public UserInfo() {
+    public Player() {
         this.username = "";
         this.score = -1;
     }
     
-    public UserInfo(String username) {
+    public Player(String username) {
         this.username = username;
     }
+    
 
-    public UserInfo(int id, String username, String firstname, String lastname, int score) {
+    public Player(int id, String username, String firstname, String lastname, int score) {
         this.id = id;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.score = score;
     }
+
+    public Player(String firstname, String lastname, String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+
+
+    public DeckOfCards getDeck() {
+        return deck;
+    }
+
+    public void setDeck(DeckOfCards deck) {
+        this.deck = deck;
+    }
+    
+    public boolean isEmpty() {
+        return this.equals(Player._empty);
+    }
+    
 
     public String getUsername() {
         return username;
@@ -82,8 +107,8 @@ public class UserInfo implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof UserInfo) {
-            return this.username.equals(((UserInfo) obj).username);
+        if(obj instanceof Player) {
+            return this.username.equals(((Player) obj).username);
         }
         return false;
     }
@@ -93,6 +118,14 @@ public class UserInfo implements Serializable {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.username);
         return hash;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     

@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import pkg3cayonlinesharedmodel.Account;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -27,7 +27,7 @@ public class UserDAO implements Serializable {
         this.conn = DriverManager.getConnection(dbURL, username, password);
     }
     
-    public Optional<UserInfo> getUserInfo(Account acc) throws SQLException {
+    public Optional<Player> getUserInfo(Account acc) throws SQLException {
         String sql = "select id, username, firstname, lastname, score from User "
                    + "where username = ? and password = ?";
         PreparedStatement preparedStm = this.conn.prepareStatement(sql);
@@ -36,7 +36,7 @@ public class UserDAO implements Serializable {
         ResultSet result = preparedStm.executeQuery();
         
         if(result.next()) {
-            UserInfo userInfo = new UserInfo(result.getInt(1),
+            Player userInfo = new Player(result.getInt(1),
                                             result.getString(2),
                                             result.getString(3), 
                                             result.getString(4), 

@@ -8,31 +8,34 @@ package pkg3cayonlineserver;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pkg3cayonlinesharedmodel.Common;
+import pkg3cayonlinesharedmodel.DeckOfCards;
 import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Response;
 import pkg3cayonlinesharedmodel.Result;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
  * @author huynguyen
  */
-public class GameRoomHandler {
+public class GameRoomController {
     private final GameRoom gameRoom;
     private final List<UserHandler> userHandlers;
-
-    public GameRoomHandler(GameRoom gameRoom, UserHandler userHandler) {
+    private DeckOfCards deck;
+    public GameRoomController(GameRoom gameRoom, UserHandler userHandler, GameDelegate delegate) {
         this.gameRoom = gameRoom;
         this.userHandlers = new ArrayList<>();
         this.userHandlers.add(userHandler);
     }
     
-    public Result<GameRoom> addedPlayer(UserHandler userHandler) {
+    public Result<GameRoom> addPlayer(UserHandler userHandler) {
         boolean canAdd = this.gameRoom.addPlayer(userHandler.getUser());
         if(canAdd) {
             this.userHandlers.add(userHandler);
-            this.notifyAllOnlineUsers(new Response(Common.ResponseHeader.AUserJoinGame, userHandler.getUser()));
+            this.notifyAllUsersInRoom(new Response(Common.ResponseHeader.AUserJoinGame, userHandler.getUser()));
             return Result.ok(this.gameRoom);
         } else {
             return Result.error("This room is full");
@@ -41,12 +44,12 @@ public class GameRoomHandler {
     public synchronized void removePlayer(UserHandler user) {
         if(this.userHandlers.remove(user)) {
             this.gameRoom.removePlayer(user.getUser());
-            this.notifyAllOnlineUsers(new Response(Common.ResponseHeader.AUserLeftRoom, user.getUser()));
+            this.notifyAllUsersInRoom(new Response(Common.ResponseHeader.AUserLeftRoom, user.getUser()));
         }
 
     }
     
-    private void notifyAllOnlineUsers(Response message) {
+    private void notifyAllUsersInRoom(Response message) {
         userHandlers.forEach((onlineUser) -> {
             try {
                 onlineUser.sending(message);
@@ -57,10 +60,7 @@ public class GameRoomHandler {
         });
     }
     
-//    public UserHandler getHost() {
-//        return this.userHandlers.get(0);
-//    }
-    public boolean contains(UserInfo user) {
+    public boolean contains(Player user) {
         return this.userHandlers.stream().anyMatch(u -> u.getUser().equals(user));
     }
     public boolean isHandleRoom(GameRoom room) {
@@ -74,6 +74,19 @@ public class GameRoomHandler {
         return userHandlers;
     }
 
+    public void start(UserHandler client) {
+        synchronized(this.userHandlers) {
+            this.deck = new DeckOfCards();
+            this.userHandlers.forEach(u -> {
+            Player player = u.getUser();
+                if(!player.isEmpty()) {
+                    player.setDeck(deck.take(3));
+                }
+            });
+        }
+        
+        
+    }
     
     
     

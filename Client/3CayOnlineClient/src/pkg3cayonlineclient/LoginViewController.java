@@ -6,11 +6,12 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.ViewController;
+import javax.swing.WindowConstants;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Result;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -24,13 +25,15 @@ public class LoginViewController extends ViewController<LoginView> implements Lo
 
     @Override
     public void onTapRegister() {
-        this.getRouter().push(new RegisterViewController());
+        RMIRegistryClientView registerView = new RMIRegistryClientView();
+        registerView.setVisible(true);
+        registerView.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @Override
     public void onTapSignIn(Account acc) {
         Request req = new Request(Common.RequestURI.SignIn, acc);
-        Result<UserInfo> result = SocketHandler.sharedIntance().get(req,UserInfo.class);
+        Result<Player> result = SocketHandler.sharedIntance().get(req,Player.class);
         result.either(val -> this.router.push(new GameHallViewController(val)),
                     err -> this.view.showAlert(err));
     }

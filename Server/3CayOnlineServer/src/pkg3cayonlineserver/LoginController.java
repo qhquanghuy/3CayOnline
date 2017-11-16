@@ -12,7 +12,7 @@ import pkg3cayonlineserversharedmodel.UserDAO;
 import pkg3cayonlinesharedmodel.Account;
 import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.Response;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 /**
  *
@@ -30,11 +30,11 @@ public class LoginController {
     
     public Response getUserInfo(Account account) {
         try {
-            if(this.serverDelegate.isSignedIn(new UserInfo(account.getUsername()))) {
+            if(this.serverDelegate.isSignedIn(new Player(account.getUsername()))) {
                 return new Response(Common.ResponseHeader.Error, "This account is already signed in");
             }
             
-            Optional<UserInfo> user = dao.getUserInfo(account);
+            Optional<Player> user = dao.getUserInfo(account);
             return user.map((userInfo) -> new Response(Common.ResponseHeader.Success, userInfo))
                         .orElse(new Response(Common.ResponseHeader.Error, "Your username or password was wrong!"));
         } catch (SQLException ex) {

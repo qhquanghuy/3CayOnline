@@ -5,16 +5,10 @@
  */
 package pkg3cayonlineclient;
 
-import BaseComponents.ViewController;
-
 /**
  *
  * @author huynguyen
  */
-public class RegisterViewController extends ViewController<RegisterView> {
-    
-    public RegisterViewController() {
-        super(new RegisterView());
-    }
-    
+public interface GameRoomDelegate {
+    public void onTapStart();
 }

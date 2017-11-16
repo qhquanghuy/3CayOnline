@@ -8,8 +8,6 @@ package pkg3cayonlinesharedmodel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 /**
  *
  * @author huynguyen
@@ -17,8 +15,8 @@ import java.util.Optional;
 public class GameRoom implements Serializable {
     private int id;
     private String title;
-    private UserInfo hostPlayer;
-    private final List<UserInfo> players;
+    private Player hostPlayer;
+    private final List<Player> players;
     private final int maximumPlayer;
     private Common.GameRoomStatus status;
 
@@ -27,21 +25,21 @@ public class GameRoom implements Serializable {
     }
     
 
-    public GameRoom(String title, UserInfo player, int maximumPlayer) {
+    public GameRoom(String title, Player player, int maximumPlayer) {
         this.title = title;
         
         this.players = new ArrayList<>();
         this.players.add(player);
-        this.players.add(UserInfo.empty());
-        this.players.add(UserInfo.empty());
-        this.players.add(UserInfo.empty());
+        this.players.add(Player.empty());
+        this.players.add(Player.empty());
+        this.players.add(Player.empty());
         this.hostPlayer = player;
         
         this.maximumPlayer = maximumPlayer;
         this.status = Common.GameRoomStatus.Waiting;
     }
     
-//    public UserInfo getRightOf(UserInfo user) {
+//    public Player getRightOf(Player user) {
 //        int i = 0;
 //        for(i = 0; i < this.players.size(); ++i) {
 //            if(this.players.get(i).equals(user)) {
@@ -49,14 +47,14 @@ public class GameRoom implements Serializable {
 //                               this.players.get(0);
 //            }
 //        }
-//        return UserInfo.empty();
+//        return Player.empty();
 //    }
     
-    public void setHostedPlayer(UserInfo user) {
+    public void setHostedPlayer(Player user) {
         this.hostPlayer = user;
     }
     
-    public UserInfo getHostedPlayer() {
+    public Player getHostedPlayer() {
         return this.hostPlayer;
     }
 
@@ -76,28 +74,28 @@ public class GameRoom implements Serializable {
         this.title = title;
     }
 
-    public List<UserInfo> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
     
     public int getPlayersInRoom() {
         return (int) this.players
                         .stream()
-                        .filter(e -> !e.equals(UserInfo.empty()))
+                        .filter(e -> !e.equals(Player.empty()))
                         .count();
     }
     
-    public void removePlayer(UserInfo player) {
+    public void removePlayer(Player player) {
         int length = this.players.size();
         for(int i = 0; i < length; ++i) {
             if (this.players.get(i).equals(player)) {
-                this.players.set(i, UserInfo.empty());
+                this.players.set(i, Player.empty());
                 break;
             }
         }
     }
     
-//    public Optional<Common.GameRoomPosition> positionOf(UserInfo user) {
+//    public Optional<Common.GameRoomPosition> positionOf(Player user) {
 //        int index = this.players.indexOf(user);
 //        Common.GameRoomPosition postion = null;
 //        if(index == 0) {
@@ -115,11 +113,11 @@ public class GameRoom implements Serializable {
 //        return Optional.ofNullable(postion);
 //    }
     
-    public boolean contains(UserInfo player) {
+    public boolean contains(Player player) {
         return this.players.stream().anyMatch((p) -> (p.equals(player)));
     }
 
-    public boolean addPlayer(UserInfo player) {
+    public boolean addPlayer(Player player) {
        
         if(this.getPlayersInRoom() >= this.maximumPlayer) {
             return false;
@@ -135,7 +133,7 @@ public class GameRoom implements Serializable {
         
         int length = this.players.size();
         for(int i = 0; i < length; ++i) {
-            if (this.players.get(i).equals(UserInfo.empty())) {
+            if (this.players.get(i).equals(Player.empty())) {
                 this.players.set(i, player);
                 break;
             }
@@ -169,7 +167,7 @@ public class GameRoom implements Serializable {
     
     public boolean isEmpty() {
         return this.players.stream()
-                .allMatch(player -> player.equals(UserInfo.empty()));
+                .allMatch(player -> player.equals(Player.empty()));
     }
     
 }

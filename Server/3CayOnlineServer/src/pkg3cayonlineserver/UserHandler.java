@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
-import pkg3cayonlinesharedmodel.UserInfo;
+import pkg3cayonlinesharedmodel.Player;
 
 
 
@@ -25,13 +25,13 @@ public class UserHandler extends Thread {
     private ObjectInputStream input = null;
     private ObjectOutputStream output = null;
     private final Responseable serverDelegate;
-    private UserInfo user;
+    private Player user;
 
-    public UserInfo getUser() {
+    public Player getUser() {
         return user;
     }
 
-    public void setUser(UserInfo user) {
+    public void setUser(Player user) {
         this.user = user;
     }
     public UserHandler(Socket socket, Responseable delegate) {
