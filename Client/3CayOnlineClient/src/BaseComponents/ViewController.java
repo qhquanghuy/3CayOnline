@@ -9,12 +9,13 @@ package BaseComponents;
 /**
  *
  * @author huynguyen
+ * @param <T>
  */
-public class ViewController {
-    protected View view;
+public class ViewController<T extends View> {
+    protected T view;
     protected Router router;
 
-    public ViewController(View view) {
+    public ViewController(T view) {
         this.view = view;
     }
 

@@ -11,7 +11,7 @@ import BaseComponents.ViewController;
  *
  * @author huynguyen
  */
-public class RegisterViewController extends ViewController {
+public class RegisterViewController extends ViewController<RegisterView> {
     
     public RegisterViewController() {
         super(new RegisterView());

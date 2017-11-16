@@ -16,7 +16,7 @@ import pkg3cayonlinesharedmodel.UserInfo;
  *
  * @author huynguyen
  */
-public class LoginViewController extends ViewController implements LoginViewDelegate {
+public class LoginViewController extends ViewController<LoginView> implements LoginViewDelegate {
     
     public LoginViewController(LoginView view) {
         super(view);

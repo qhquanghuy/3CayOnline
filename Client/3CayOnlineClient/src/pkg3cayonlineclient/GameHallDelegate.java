@@ -12,6 +12,6 @@ package pkg3cayonlineclient;
 public interface GameHallDelegate {
     public void onTapBtnProfile();
     public void onTapBtnSignOut();
-    public void onTapBtnJoin();
+    public void joinARoom(int roomIdx);
     public void onTapBtnCreate();
 }

@@ -24,7 +24,7 @@ import pkg3cayonlinesharedmodel.UserInfo;
  *
  * @author huynguyen
  */
-public class GameHallViewController extends ViewController implements GameHallDelegate {
+public class GameHallViewController extends ViewController<GameHallView> implements GameHallDelegate {
     
     private final UserInfo user;
     private GameHallModel gameHallData;
@@ -36,8 +36,7 @@ public class GameHallViewController extends ViewController implements GameHallDe
         this.user = user;
         
         SwingUtilities.invokeLater(() -> {
-            ((GameHallView) this.view).bind(user);
-            
+            this.view.bind(user);
             new Thread(() -> this.viewDidLoad()).start();
         });
         
@@ -49,8 +48,7 @@ public class GameHallViewController extends ViewController implements GameHallDe
     }
     
     public void viewDidLoad() {
-        GameHallView gameView = ((GameHallView) this.view);
-        gameView.setDelegate(this);
+        this.view.setDelegate(this);
         Result<GameHallModel> result = this.getGameHallData();
             
         if(result.isError()) {
@@ -62,13 +60,13 @@ public class GameHallViewController extends ViewController implements GameHallDe
                                             .map(this::parseOnlineUser)
                                             .collect(Collectors.toCollection(Vector::new));
                                             
-            gameView.bind(onlineUserData, gameView.getTblOnlineUser());
+            this.view.bind(onlineUserData, this.view.getTblOnlineUser());
             
             Vector gameRoomData = this.gameHallData.getGameRooms()
                                             .stream()
                                             .map(this::parseGameRoom)
                                             .collect(Collectors.toCollection(Vector::new));
-            gameView.bind(gameRoomData, gameView.getTblRoomList());
+            this.view.bind(gameRoomData, this.view.getTblRoomList());
         }
         
         this.listening();
@@ -90,17 +88,19 @@ public class GameHallViewController extends ViewController implements GameHallDe
         return data;
     }
     
+    private void updatingRoom(GameRoom gameRoom) {
+        int index = this.gameHallData.getGameRooms().indexOf(gameRoom);
+        this.view.updateGameRoomEntry(parseGameRoom(gameRoom), index);
+    }
     
     private <T> void addNewEntryForTable(List<T> entries, T entry, Function<T, Vector> parser, JTable table) {
-        GameHallView gameView = ((GameHallView) this.view);
-        gameView.addNewEntry(parser.apply(entry), table);
+        this.view.addNewEntry(parser.apply(entry), table);
         entries.add(entry);
     }
     
     private <T> void removeNewEntryForTable(List<T> entries, T entry, JTable table) {
-        GameHallView gameView = ((GameHallView) this.view);
         int index = entries.indexOf(entry);
-        gameView.removeEntry(index, table);
+        this.view.removeEntry(index, table);
         entries.remove(index);
     }
         
@@ -118,16 +118,16 @@ public class GameHallViewController extends ViewController implements GameHallDe
                                   this.addNewEntryForTable(this.gameHallData.getOnlinePlayers(), 
                                           userInfo, 
                                           this::parseOnlineUser, 
-                                          ((GameHallView) this.view).getTblOnlineUser());
-                              }, error -> this.view.showAlert(error));
+                                          this.view.getTblOnlineUser());
+                              },this.view::showAlert);
                         break;
                     case AUserLeftGame:
                         Helper.parse(response, UserInfo.class)
                               .either(userInfo -> {
                                   this.removeNewEntryForTable(this.gameHallData.getOnlinePlayers(), 
                                           userInfo, 
-                                          ((GameHallView) this.view).getTblOnlineUser());
-                                }, error -> this.view.showAlert(error));
+                                          this.view.getTblOnlineUser());
+                                },this.view::showAlert);
                         break;
                     case ARoomCreated:
                         Helper.parse(response, GameRoom.class)
@@ -135,22 +135,26 @@ public class GameHallViewController extends ViewController implements GameHallDe
                                   this.addNewEntryForTable(this.gameHallData.getGameRooms(), 
                                           gameRoom, 
                                           this::parseGameRoom, 
-                                          ((GameHallView) this.view).getTblRoomList());
-                              }, error -> this.view.showAlert(error));
+                                          this.view.getTblRoomList());
+                              },this.view::showAlert);
                         break;
                     case ARoomRemoved:
                          Helper.parse(response, GameRoom.class)
                               .either(gameRoom -> {
                                   this.removeNewEntryForTable(this.gameHallData.getGameRooms(), 
                                           gameRoom, 
-                                          ((GameHallView) this.view).getTblOnlineUser());
-                                }, error -> this.view.showAlert(error));
+                                          this.view.getTblOnlineUser());
+                                },this.view::showAlert);
                         break;
+                        case ARoomUpdated:
+                            Helper.parse(response, GameRoom.class)
+                              .either(this::updatingRoom,this.view::showAlert);
+                            break;
                     case Success:
-                        this.shouldKeepListening = false;
                         GameRoom gameRoom = (GameRoom) response.getData();
                         this.router.push(new GameRoomViewController(gameRoom, this.user));
-                        
+                        this.shouldKeepListening = false;
+                        break;
                     default: break;                            
                 }
             });
@@ -158,10 +162,9 @@ public class GameHallViewController extends ViewController implements GameHallDe
         System.out.println("Stop listening");
     }
     
-    
-    private void createRoom(GameRoom gameRoom) {
+    private void sendingGameRoomTo(GameRoom gameRoom, Common.RequestURI uri) {
         try {
-            SocketHandler.sharedIntance().sending(new Request(Common.RequestURI.CreateRoom, gameRoom));
+            SocketHandler.sharedIntance().sending(new Request(uri, gameRoom));
         } catch (IOException ex) {
             ex.printStackTrace();
             this.view.showAlert("Something went wrong");
@@ -176,17 +179,18 @@ public class GameHallViewController extends ViewController implements GameHallDe
     @Override
     public void onTapBtnSignOut() {
         this.shouldKeepListening = false;
-            try {
-                SocketHandler.sharedIntance().sending(new Request(Common.RequestURI.SignOut, null));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            this.router.pop();
+        try {
+            SocketHandler.sharedIntance().sending(new Request(Common.RequestURI.SignOut, null));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        this.router.pop();
     }
 
     @Override
-    public void onTapBtnJoin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void joinARoom(int roomIdx) {
+        GameRoom gameRoom = this.gameHallData.getGameRooms().get(roomIdx);
+        new Thread(() -> this.sendingGameRoomTo(gameRoom, Common.RequestURI.JoinRoom)).start(); 
     }
     
     
@@ -194,11 +198,12 @@ public class GameHallViewController extends ViewController implements GameHallDe
 
     @Override
     public void onTapBtnCreate() {
-        CreateRoomController createRoomVC =  new CreateRoomController();
-        this.view.presentConfirm(createRoomVC, (isOk) -> {
-            GameRoom gameRoom = createRoomVC.getGameRoom();
-            gameRoom.setHostedPlayer(this.user);
-            new Thread(() -> this.createRoom(gameRoom)).start();
+        CreateRoomController createRoomVC =  new CreateRoomController(this.user);
+        this.view.presentConfirm(createRoomVC, isOk -> {
+            if(isOk) {
+                GameRoom gameRoom = createRoomVC.getGameRoom();
+                new Thread(() -> this.sendingGameRoomTo(gameRoom, Common.RequestURI.CreateRoom)).start();
+            }
         });
         
         

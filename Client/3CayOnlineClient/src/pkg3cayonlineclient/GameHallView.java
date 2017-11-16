@@ -45,8 +45,14 @@ public class GameHallView extends View {
     
     public void bind(Vector obj, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-
         SwingUtilities.invokeLater(() -> model.setDataVector(obj, getColumnNames(model)));
+    }
+    
+    public void updateGameRoomEntry(Vector obj, int rowIdx) {
+        DefaultTableModel model = (DefaultTableModel) this.tblRoomList.getModel();
+        for(int i = 0; i < obj.size(); ++i) {
+            model.setValueAt(obj.get(i), rowIdx, i);
+        }
     }
     
     public void addNewEntry(Vector obj, JTable table) {
@@ -114,8 +120,13 @@ public class GameHallView extends View {
                 return canEdit [columnIndex];
             }
         });
-        tblRoomList.setColumnSelectionAllowed(true);
+        tblRoomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblRoomList.getTableHeader().setReorderingAllowed(false);
+        tblRoomList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRoomListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblRoomList);
         tblRoomList.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblRoomList.getColumnModel().getColumnCount() > 0) {
@@ -240,6 +251,17 @@ public class GameHallView extends View {
         // TODO add your handling code here:
         this.delegate.onTapBtnSignOut();
     }//GEN-LAST:event_btnSignOutActionPerformed
+
+    private void tblRoomListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRoomListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2) {
+            JTable table = (JTable)evt.getSource();
+            int rowIdx = table.getSelectedRow();
+            this.delegate.joinARoom(rowIdx);
+//            DefaultTableModel model = (DefaultTableModel) table.getModel();
+//            this.delegate.joinARoom((int) model.getValueAt(rowIdx, 0));
+        }
+    }//GEN-LAST:event_tblRoomListMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

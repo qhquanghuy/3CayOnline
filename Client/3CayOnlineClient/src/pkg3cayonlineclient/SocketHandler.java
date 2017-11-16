@@ -94,7 +94,8 @@ final public class SocketHandler {
             if(this.input == null) {
             this.input = new ObjectInputStream(this.socket.getInputStream());
         }
-            response = (Response) this.input.readObject();
+            Object obj = this.input.readObject();
+            response = (Response) obj;
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
             response = Response.systemError();

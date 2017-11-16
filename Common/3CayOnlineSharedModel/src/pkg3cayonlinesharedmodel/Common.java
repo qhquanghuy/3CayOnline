@@ -40,11 +40,11 @@ public final class Common {
     public enum ResponseHeader {
         Error,
         Success,
-        
         // NOTIFCATIONs
         AUserOnline,
         AUserLeftRoom,
         AUserLeftGame,
+        AUserJoinGame,
         
         ARoomCreated,
         ARoomRemoved,
@@ -55,4 +55,19 @@ public final class Common {
         Playing,
         Waiting
     }
+    
+//    public enum GameRoomPosition {
+//        Bottom(0),
+//        Right(1),
+//        Left(2),
+//        Top(3);
+//        private int value;
+//        GameRoomPosition(int val) {
+//            this.value = val;
+//        }
+//        public int getVal() {
+//            return value;
+//        }
+//        
+//    }
 }

@@ -16,101 +16,117 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblId" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="lblUserNameLeft" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="lblUserScoreLeft" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="119" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="lblUserNameTop" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="lblBottomUserName" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblUserScoreTop" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBottomUserScore" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="lblUserNameBottom" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="lblUserScoreBottom" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="254" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="lblLeftUserName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lblLeftUserScore" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="btnStart" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
-                          <Component id="lblUserNameRight" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="lblUserScoreRight" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <EmptySpace pref="173" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnStart" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblTopUserName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lblTopUserScore" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="215" max="-2" attributes="0"/>
+              <Component id="lblRightUserName" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lblRightUserScore" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="lblId" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblUserNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblUserScoreTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTopUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTopUserScore" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="121" max="32767" attributes="0"/>
+              <EmptySpace pref="194" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblUserNameRight" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblUserScoreRight" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblUserNameLeft" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblUserScoreLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblRightUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblRightUserScore" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblLeftUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblLeftUserScore" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnStart" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblUserNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblUserScoreBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBottomUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBottomUserScore" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblUserNameBottom">
+    <Component class="javax.swing.JLabel" name="lblBottomUserName">
       <Properties>
         <Property name="text" type="java.lang.String" value="UserName"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserScoreBottom">
+    <Component class="javax.swing.JLabel" name="lblBottomUserScore">
       <Properties>
         <Property name="text" type="java.lang.String" value="Score"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserNameRight">
+    <Component class="javax.swing.JLabel" name="lblRightUserName">
       <Properties>
         <Property name="text" type="java.lang.String" value="UserName"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserScoreRight">
+    <Component class="javax.swing.JLabel" name="lblRightUserScore">
       <Properties>
         <Property name="text" type="java.lang.String" value="Score"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserScoreTop">
+    <Component class="javax.swing.JLabel" name="lblTopUserScore">
       <Properties>
         <Property name="text" type="java.lang.String" value="Score"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserNameTop">
+    <Component class="javax.swing.JLabel" name="lblTopUserName">
       <Properties>
         <Property name="text" type="java.lang.String" value="UserName"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserScoreLeft">
+    <Component class="javax.swing.JLabel" name="lblLeftUserScore">
       <Properties>
         <Property name="text" type="java.lang.String" value="Score"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblUserNameLeft">
+    <Component class="javax.swing.JLabel" name="lblLeftUserName">
       <Properties>
         <Property name="text" type="java.lang.String" value="UserName"/>
       </Properties>
@@ -122,6 +138,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStartActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblId">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="id"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTitle">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="title"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

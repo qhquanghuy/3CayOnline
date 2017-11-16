@@ -16,6 +16,7 @@ import pkg3cayonlinesharedmodel.Common;
 import pkg3cayonlinesharedmodel.GameRoom;
 import pkg3cayonlinesharedmodel.Request;
 import pkg3cayonlinesharedmodel.Response;
+import pkg3cayonlinesharedmodel.Result;
 import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
@@ -90,9 +91,10 @@ public class Server implements Responseable {
                 return new Response(Common.ResponseHeader.Success,"");
             case CreateRoom:
                 return new Response(Common.ResponseHeader.Success, 
-                                    this.gameHallController.createdRoom((GameRoom) request.getData(), client));
+                        this.gameHallController.createdRoom((GameRoom) request.getData(), client));
             case LeaveRoom:
             case JoinRoom:
+                return this.gameHallController.joinRoom((GameRoom) request.getData(), client);
             case GetOnlineUsers:
                 return new Response(Common.ResponseHeader.Success, 
                                     this.gameHallController.getGameHallModel(client.getUser()));
@@ -103,7 +105,7 @@ public class Server implements Responseable {
     
     @Override
     public void clientUnreachable(UserHandler client) {
-        this.gameHallController.removeUser(client);
+        this.gameHallController.disconnecting(client);
     }
     
 }

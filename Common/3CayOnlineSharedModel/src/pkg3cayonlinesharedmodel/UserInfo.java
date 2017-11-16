@@ -6,6 +6,7 @@
 package pkg3cayonlinesharedmodel;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -17,6 +18,15 @@ public class UserInfo implements Serializable {
     private String firstname;
     private String lastname;
     private int score;
+    private static UserInfo _empty = new UserInfo();
+    static UserInfo empty() {
+        return _empty;
+    }
+    
+    public UserInfo() {
+        this.username = "";
+        this.score = -1;
+    }
     
     public UserInfo(String username) {
         this.username = username;
@@ -70,9 +80,19 @@ public class UserInfo implements Serializable {
         this.lastname = lastname;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof UserInfo) {
+            return this.username.equals(((UserInfo) obj).username);
+        }
+        return false;
+    }
 
-    public boolean equals(UserInfo obj) {
-        return this.username.equals(obj.username);
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.username);
+        return hash;
     }
     
     

@@ -7,16 +7,94 @@
 package pkg3cayonlineclient;
 
 import BaseComponents.View;
+import pkg3cayonlinesharedmodel.GameRoom;
+import pkg3cayonlinesharedmodel.UserInfo;
 
 /**
  *
  * @author HuyNguyen
  */
-public class GameRoomView extends View {
+public final class GameRoomView extends View {
 
     /** Creates new form GameRoomView */
     public GameRoomView() {
         initComponents();
+        this.lblBottomUserName.setText("");
+        this.lblBottomUserScore.setText("");
+        
+        this.lblLeftUserName.setText("");
+        this.lblLeftUserScore.setText("");
+        
+        this.lblRightUserName.setText("");
+        this.lblRightUserScore.setText("");
+        
+        this.lblTopUserName.setText("");
+        this.lblTopUserScore.setText("");
+    }
+    public void bindRoom(GameRoom gameRoom) {
+        this.lblId.setText(String.valueOf(gameRoom.getId()));
+        this.lblTitle.setText(gameRoom.getTitle());
+    }
+    public void removeAPlayer(UserInfo player) {
+        String name = player.getUsername();
+        String score = parseScore(player.getScore());
+        
+        if(this.lblBottomUserName.getText().equals(name)) {
+            this.lblBottomUserName.setText("");
+            this.lblBottomUserScore.setText("");
+        }
+        
+        if(this.lblRightUserName.getText().equals(name)) {
+            this.lblRightUserName.setText("");
+            this.lblRightUserScore.setText("");
+        }
+                
+        if(this.lblTopUserName.getText().equals(name)) {
+            this.lblTopUserName.setText("");
+            this.lblTopUserScore.setText("");
+        }
+                        
+        if(this.lblLeftUserName.getText().equals(name)) {
+            this.lblLeftUserName.setText("");
+            this.lblLeftUserScore.setText("");
+        }
+    }
+    
+    
+    private String parseScore(int score) {
+        return score == -1 ? "" : String.valueOf(score);
+    }
+    
+    public void bindPlayer(UserInfo player) {
+        String name = player.getUsername();
+        String score = parseScore(player.getScore());
+        if(this.lblBottomUserName.getText().isEmpty()) {
+            this.lblBottomUserName.setText(name);
+            this.lblBottomUserScore.setText(score);
+            return;
+        }
+        
+        if(this.lblRightUserName.getText().isEmpty()) {
+            this.lblRightUserName.setText(name);
+            this.lblRightUserScore.setText(score);
+            return;
+        }
+                
+        if(this.lblTopUserName.getText().isEmpty()) {
+            this.lblTopUserName.setText(name);
+            this.lblTopUserScore.setText(score);
+            return;
+        }
+                        
+        if(this.lblLeftUserName.getText().isEmpty()) {
+            this.lblLeftUserName.setText(name);
+            this.lblLeftUserScore.setText(score);
+        }
+        
+    }
+    
+    public void showStartGameBtn(boolean shouldShow) {
+        this.btnStart.setVisible(shouldShow);
     }
 
     /** This method is called from within the constructor to
@@ -28,31 +106,33 @@ public class GameRoomView extends View {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblUserNameBottom = new javax.swing.JLabel();
-        lblUserScoreBottom = new javax.swing.JLabel();
-        lblUserNameRight = new javax.swing.JLabel();
-        lblUserScoreRight = new javax.swing.JLabel();
-        lblUserScoreTop = new javax.swing.JLabel();
-        lblUserNameTop = new javax.swing.JLabel();
-        lblUserScoreLeft = new javax.swing.JLabel();
-        lblUserNameLeft = new javax.swing.JLabel();
+        lblBottomUserName = new javax.swing.JLabel();
+        lblBottomUserScore = new javax.swing.JLabel();
+        lblRightUserName = new javax.swing.JLabel();
+        lblRightUserScore = new javax.swing.JLabel();
+        lblTopUserScore = new javax.swing.JLabel();
+        lblTopUserName = new javax.swing.JLabel();
+        lblLeftUserScore = new javax.swing.JLabel();
+        lblLeftUserName = new javax.swing.JLabel();
         btnStart = new javax.swing.JButton();
+        lblId = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
 
-        lblUserNameBottom.setText("UserName");
+        lblBottomUserName.setText("UserName");
 
-        lblUserScoreBottom.setText("Score");
+        lblBottomUserScore.setText("Score");
 
-        lblUserNameRight.setText("UserName");
+        lblRightUserName.setText("UserName");
 
-        lblUserScoreRight.setText("Score");
+        lblRightUserScore.setText("Score");
 
-        lblUserScoreTop.setText("Score");
+        lblTopUserScore.setText("Score");
 
-        lblUserNameTop.setText("UserName");
+        lblTopUserName.setText("UserName");
 
-        lblUserScoreLeft.setText("Score");
+        lblLeftUserScore.setText("Score");
 
-        lblUserNameLeft.setText("UserName");
+        lblLeftUserName.setText("UserName");
 
         btnStart.setText("Start");
         btnStart.addActionListener(new java.awt.event.ActionListener() {
@@ -61,54 +141,70 @@ public class GameRoomView extends View {
             }
         });
 
+        lblId.setText("id");
+
+        lblTitle.setText("title");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblId)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(lblUserNameLeft)
-                .addGap(18, 18, 18)
-                .addComponent(lblUserScoreLeft)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblUserNameTop)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblBottomUserName)
                         .addGap(18, 18, 18)
-                        .addComponent(lblUserScoreTop))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(lblUserNameBottom)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblUserScoreBottom)
-                            .addGap(254, 254, 254))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(btnStart)
-                            .addGap(136, 136, 136)
-                            .addComponent(lblUserNameRight)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblUserScoreRight)
-                            .addGap(19, 19, 19)))))
+                        .addComponent(lblBottomUserScore))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(lblLeftUserName)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblLeftUserScore))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblTitle)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnStart, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblTopUserName)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTopUserScore)))))
+                .addGap(215, 215, 215)
+                .addComponent(lblRightUserName)
+                .addGap(18, 18, 18)
+                .addComponent(lblRightUserScore)
+                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(10, 10, 10)
+                .addComponent(lblId)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUserNameTop)
-                    .addComponent(lblUserScoreTop))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                    .addComponent(lblTitle)
+                    .addComponent(lblTopUserName)
+                    .addComponent(lblTopUserScore))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUserNameRight)
-                    .addComponent(lblUserScoreRight)
-                    .addComponent(lblUserNameLeft)
-                    .addComponent(lblUserScoreLeft)
+                    .addComponent(lblRightUserName)
+                    .addComponent(lblRightUserScore)
+                    .addComponent(lblLeftUserName)
+                    .addComponent(lblLeftUserScore)
                     .addComponent(btnStart))
-                .addGap(139, 139, 139)
+                .addGap(150, 150, 150)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUserNameBottom)
-                    .addComponent(lblUserScoreBottom))
-                .addGap(47, 47, 47))
+                    .addComponent(lblBottomUserName)
+                    .addComponent(lblBottomUserScore))
+                .addGap(36, 36, 36))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -119,14 +215,16 @@ public class GameRoomView extends View {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStart;
-    private javax.swing.JLabel lblUserNameBottom;
-    private javax.swing.JLabel lblUserNameLeft;
-    private javax.swing.JLabel lblUserNameRight;
-    private javax.swing.JLabel lblUserNameTop;
-    private javax.swing.JLabel lblUserScoreBottom;
-    private javax.swing.JLabel lblUserScoreLeft;
-    private javax.swing.JLabel lblUserScoreRight;
-    private javax.swing.JLabel lblUserScoreTop;
+    private javax.swing.JLabel lblBottomUserName;
+    private javax.swing.JLabel lblBottomUserScore;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblLeftUserName;
+    private javax.swing.JLabel lblLeftUserScore;
+    private javax.swing.JLabel lblRightUserName;
+    private javax.swing.JLabel lblRightUserScore;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTopUserName;
+    private javax.swing.JLabel lblTopUserScore;
     // End of variables declaration//GEN-END:variables
 
 }

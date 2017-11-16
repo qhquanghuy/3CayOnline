@@ -50,6 +50,7 @@ public class UserHandler extends Thread {
         if (this.output == null) {
             this.output = new ObjectOutputStream(socket.getOutputStream());
         }
+        this.output.reset();
         this.output.writeObject(res);
     }
     
