@@ -29,15 +29,28 @@ public final class GameRoomView extends View {
         initComponents();
         this.lblBottomUserName.setText("");
         this.lblBottomUserScore.setText("");
+        this.lblBottomCard1.setText("");
+        this.lblBottomCard2.setText("");
+        this.lblBottomCard3.setText("");
         
         this.lblLeftUserName.setText("");
         this.lblLeftUserScore.setText("");
+        this.lblLeftCard1.setText("");
+        this.lblLeftCard2.setText("");
+        this.lblLeftCard3.setText("");
         
         this.lblRightUserName.setText("");
         this.lblRightUserScore.setText("");
+        this.lblRightCard1.setText("");
+        this.lblRightCard2.setText("");
+        this.lblRightCard3.setText("");
+        
         
         this.lblTopUserName.setText("");
         this.lblTopUserScore.setText("");
+        this.lblTopCard1.setText("");
+        this.lblTopCard2.setText("");
+        this.lblTopCard3.setText("");
     }
     public void bindRoom(GameRoom gameRoom) {
         this.lblId.setText(String.valueOf(gameRoom.getId()));
@@ -50,21 +63,33 @@ public final class GameRoomView extends View {
         if(this.lblBottomUserName.getText().equals(name)) {
             this.lblBottomUserName.setText("");
             this.lblBottomUserScore.setText("");
+            this.lblBottomCard1.setText("");
+            this.lblBottomCard2.setText("");
+            this.lblBottomCard3.setText("");
         }
         
         if(this.lblRightUserName.getText().equals(name)) {
             this.lblRightUserName.setText("");
             this.lblRightUserScore.setText("");
+            this.lblRightCard1.setText("");
+            this.lblRightCard2.setText("");
+            this.lblRightCard3.setText("");
         }
                 
         if(this.lblTopUserName.getText().equals(name)) {
             this.lblTopUserName.setText("");
             this.lblTopUserScore.setText("");
+            this.lblTopCard1.setText("");
+            this.lblTopCard2.setText("");
+            this.lblTopCard3.setText("");
         }
                         
         if(this.lblLeftUserName.getText().equals(name)) {
             this.lblLeftUserName.setText("");
             this.lblLeftUserScore.setText("");
+            this.lblLeftCard1.setText("");
+            this.lblLeftCard2.setText("");
+            this.lblLeftCard3.setText("");
         }
     }
     
@@ -79,6 +104,7 @@ public final class GameRoomView extends View {
         if(this.lblBottomUserName.getText().isEmpty()) {
             this.lblBottomUserName.setText(name);
             this.lblBottomUserScore.setText(score);
+            
             return;
         }
         
@@ -125,6 +151,18 @@ public final class GameRoomView extends View {
         btnStart = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
+        lblBottomCard1 = new javax.swing.JLabel();
+        lblBottomCard2 = new javax.swing.JLabel();
+        lblBottomCard3 = new javax.swing.JLabel();
+        lblRightCard1 = new javax.swing.JLabel();
+        lblRightCard2 = new javax.swing.JLabel();
+        lblRightCard3 = new javax.swing.JLabel();
+        lblTopCard1 = new javax.swing.JLabel();
+        lblTopCard2 = new javax.swing.JLabel();
+        lblTopCard3 = new javax.swing.JLabel();
+        lblLeftCard2 = new javax.swing.JLabel();
+        lblLeftCard3 = new javax.swing.JLabel();
+        lblLeftCard1 = new javax.swing.JLabel();
 
         lblBottomUserName.setText("UserName");
 
@@ -153,14 +191,34 @@ public final class GameRoomView extends View {
 
         lblTitle.setText("title");
 
+        lblBottomCard1.setText("jLabel1");
+
+        lblBottomCard2.setText("jLabel1");
+
+        lblBottomCard3.setText("jLabel1");
+
+        lblRightCard1.setText("jLabel1");
+
+        lblRightCard2.setText("jLabel1");
+
+        lblRightCard3.setText("jLabel1");
+
+        lblTopCard1.setText("jLabel1");
+
+        lblTopCard2.setText("jLabel1");
+
+        lblTopCard3.setText("jLabel1");
+
+        lblLeftCard2.setText("jLabel1");
+
+        lblLeftCard3.setText("jLabel1");
+
+        lblLeftCard1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblId)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -184,12 +242,49 @@ public final class GameRoomView extends View {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblTopUserName)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblTopUserScore)))))
+                                .addComponent(lblTopUserScore))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(lblLeftCard1)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblLeftCard2)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblLeftCard3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(215, 215, 215)
                 .addComponent(lblRightUserName)
                 .addGap(18, 18, 18)
                 .addComponent(lblRightUserScore)
                 .addGap(48, 48, 48))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblId))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTopCard1)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTopCard2)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblTopCard3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblBottomCard1)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblBottomCard2)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblBottomCard3)))))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblRightCard1)
+                .addGap(18, 18, 18)
+                .addComponent(lblRightCard2)
+                .addGap(18, 18, 18)
+                .addComponent(lblRightCard3)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,14 +296,33 @@ public final class GameRoomView extends View {
                     .addComponent(lblTitle)
                     .addComponent(lblTopUserName)
                     .addComponent(lblTopUserScore))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTopCard1)
+                    .addComponent(lblTopCard2)
+                    .addComponent(lblTopCard3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRightCard1)
+                    .addComponent(lblRightCard2)
+                    .addComponent(lblRightCard3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblLeftCard1)
+                        .addComponent(lblLeftCard2)
+                        .addComponent(lblLeftCard3)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRightUserName)
                     .addComponent(lblRightUserScore)
                     .addComponent(lblLeftUserName)
                     .addComponent(lblLeftUserScore)
                     .addComponent(btnStart))
-                .addGap(150, 150, 150)
+                .addGap(116, 116, 116)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBottomCard1)
+                    .addComponent(lblBottomCard2)
+                    .addComponent(lblBottomCard3))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblBottomUserName)
                     .addComponent(lblBottomUserScore))
@@ -218,20 +332,33 @@ public final class GameRoomView extends View {
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
+        this.showStartGameBtn(false);
         this.delegate.onTapStart();
     }//GEN-LAST:event_btnStartActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStart;
+    private javax.swing.JLabel lblBottomCard1;
+    private javax.swing.JLabel lblBottomCard2;
+    private javax.swing.JLabel lblBottomCard3;
     private javax.swing.JLabel lblBottomUserName;
     private javax.swing.JLabel lblBottomUserScore;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblLeftCard1;
+    private javax.swing.JLabel lblLeftCard2;
+    private javax.swing.JLabel lblLeftCard3;
     private javax.swing.JLabel lblLeftUserName;
     private javax.swing.JLabel lblLeftUserScore;
+    private javax.swing.JLabel lblRightCard1;
+    private javax.swing.JLabel lblRightCard2;
+    private javax.swing.JLabel lblRightCard3;
     private javax.swing.JLabel lblRightUserName;
     private javax.swing.JLabel lblRightUserScore;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTopCard1;
+    private javax.swing.JLabel lblTopCard2;
+    private javax.swing.JLabel lblTopCard3;
     private javax.swing.JLabel lblTopUserName;
     private javax.swing.JLabel lblTopUserScore;
     // End of variables declaration//GEN-END:variables

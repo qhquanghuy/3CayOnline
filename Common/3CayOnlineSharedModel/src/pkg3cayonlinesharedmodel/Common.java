@@ -50,6 +50,10 @@ public final class Common {
         ARoomRemoved,
         ARoomUpdated,
         ARoomStarted,
+        
+        Card,
+        Update,
+        EndGame
     }
     
     public enum GameRoomStatus {

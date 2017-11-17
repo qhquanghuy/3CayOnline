@@ -5,11 +5,13 @@
  */
 package pkg3cayonlinesharedmodel;
 
+import java.io.Serializable;
+
 /**
  *
  * @author huynguyen
  */
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card>, Serializable{
     private final int value;
     private final Common.CardType type;
 

@@ -5,6 +5,7 @@
  */
 package pkg3cayonlinesharedmodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author huynguyen
  */
-public class DeckOfCards implements Comparable<DeckOfCards> {
+public class DeckOfCards implements Comparable<DeckOfCards>, Serializable {
     private final List<Card> cards;
 
     public DeckOfCards() {
@@ -28,7 +29,7 @@ public class DeckOfCards implements Comparable<DeckOfCards> {
         this.shuffle();
     }
     
-    private DeckOfCards(List<Card> cards) {
+    public DeckOfCards(List<Card> cards) {
         this.cards = cards;
     }
 

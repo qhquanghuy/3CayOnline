@@ -8,6 +8,7 @@ package pkg3cayonlineserver;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pkg3cayonlinesharedmodel.Common;
@@ -73,18 +74,62 @@ public class GameRoomController {
     public List<UserHandler> getUserHandler() {
         return userHandlers;
     }
+    
+    public Player getWinner() {
+        DeckOfCards maxDeck = this.userHandlers.stream()
+                .map(c -> c.getUser())
+                .map(p -> p.getDeck())
+                .map(DeckOfCards::new)
+                .max(DeckOfCards::compareTo)
+                .get();
+        
+        return this.userHandlers.stream().map(u -> u.getUser())
+                                        .filter(p -> {
+                                            DeckOfCards deck = new DeckOfCards(p.getDeck());
+                                            return deck.compareTo(maxDeck) == 0;
+                                            
+                                        }).findFirst()
+                                            .get();
+    }
 
-    public void start(UserHandler client) {
+    public void start(Consumer completion) {
         synchronized(this.userHandlers) {
             this.deck = new DeckOfCards();
-            this.userHandlers.forEach(u -> {
-            Player player = u.getUser();
-                if(!player.isEmpty()) {
-                    player.setDeck(deck.take(3));
+            for(int i = 0; i < 3; ++i) {
+                DeckOfCards temp = this.deck.take(this.userHandlers.size());
+                for(int j = 0; j < temp.getCards().size(); ++j) {
+                    UserHandler current = this.userHandlers.get(j);
+                    
+                    try {
+                        current.getUser().getDeck().add(temp.getCards().get(j));
+                        current.sending(new Response(Common.ResponseHeader.Card, 
+                                                        current.getUser()));
+                        this.userHandlers.stream()
+                                        .filter(u -> !u.equals(current))
+                                        .forEach(u -> {
+                                            try {
+                                                u.sending(new Response(Common.ResponseHeader.Update,
+                                                        current.getUser()));
+                                            } catch (IOException ex) {
+                                                u.closing();
+                                            }
+                                        });
+                        
+                        Thread.sleep(500);
+                    } catch (IOException |InterruptedException ex) {
+                        ex.printStackTrace();
+                        this.userHandlers.get(j).closing();
+                    }
+                            
                 }
-            });
+            }
+            this.notifyAllUsersInRoom(new Response(Common.ResponseHeader.EndGame, this.getWinner().getUsername()));   
+            this.userHandlers.forEach(u -> u.getUser().getDeck().removeAll(u.getUser().getDeck()));
+            this.gameRoom.setStatus(Common.GameRoomStatus.Waiting);
+            completion.accept(true);
+                    
         }
-        
+
         
     }
     

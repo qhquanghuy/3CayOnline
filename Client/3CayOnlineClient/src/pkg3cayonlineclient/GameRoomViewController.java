@@ -72,10 +72,16 @@ public class GameRoomViewController extends ViewController<GameRoomView> impleme
                         Helper.parse(response, Player.class)
                               .either(this::addAPlayer, this.view::showAlert);
                         break;
-                    case Success:
-//                        this.shouldKeepListening = false;
-//                        this.router.push(new GameRoomViewController((GameRoom) response.getData(), this.user));
-                        
+                    case Card:
+                        System.out.println(((Player) response.getData()).getDeck());
+                    case Update:
+                        break;
+//                        System.out.println("cards for" + ((Player) response.getData()).getUsername());
+                    case EndGame:
+                        System.out.println(response.getData() + " is winner");
+                        if(this.user.equals(this.gameRoom.getHostedPlayer())) {
+                            this.view.showStartGameBtn(true);
+                        }
                     default: break;                            
                 }
             });

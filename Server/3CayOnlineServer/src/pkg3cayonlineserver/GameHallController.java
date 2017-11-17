@@ -115,7 +115,15 @@ public class GameHallController implements GameDelegate  {
                 this.gameRooms.stream().anyMatch(r -> r.contains(user));
     }
     
-    public void aRoomStartGame(GameRoom gameRoom, UserHandler client) {
+    public void aRoomStartGame(GameRoom gameRoom) {
+        for(GameRoomController r: this.gameRooms) {
+            if(r.isHandleRoom(gameRoom)) {
+                r.getGameRoom().setStatus(Common.GameRoomStatus.Playing);
+                new Thread(() -> r.start(finish -> this.notifyAllOnlineUsers(new Response(Common.ResponseHeader.ARoomUpdated, r.getGameRoom())))).start();
+                this.notifyAllOnlineUsers(new Response(Common.ResponseHeader.ARoomUpdated, r.getGameRoom()));
+                break;
+            }
+        }
         
     }
 }

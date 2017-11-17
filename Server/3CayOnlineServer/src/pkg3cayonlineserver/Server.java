@@ -98,7 +98,8 @@ public class Server implements Responseable {
                 return new Response(Common.ResponseHeader.Success, 
                                     this.gameHallController.getGameHallModel(client.getUser()));
             case StartGame:
-                
+                this.gameHallController.aRoomStartGame((GameRoom) request.getData());
+                return new Response(Common.ResponseHeader.Success, null);
             default:
                 return Response.resourceNotFound();
         }

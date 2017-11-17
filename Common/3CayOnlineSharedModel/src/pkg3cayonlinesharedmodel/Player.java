@@ -6,6 +6,8 @@
 package pkg3cayonlinesharedmodel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,7 +21,7 @@ public class Player implements Serializable {
     private String firstname;
     private String lastname;
     private int score;
-    private DeckOfCards deck;
+    private List<Card> cards = new ArrayList<>();
     private static Player _empty = new Player();
     static Player empty() {
         return _empty;
@@ -52,13 +54,10 @@ public class Player implements Serializable {
 
 
 
-    public DeckOfCards getDeck() {
-        return deck;
+    public List<Card> getDeck() {
+        return cards;
     }
 
-    public void setDeck(DeckOfCards deck) {
-        this.deck = deck;
-    }
     
     public boolean isEmpty() {
         return this.equals(Player._empty);
